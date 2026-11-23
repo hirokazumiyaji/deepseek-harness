@@ -203,9 +203,9 @@ describe('ui-permission browser plugin', () => {
     expect(again.find(option => option.id === 'workspace-write')?.active).toBe(true)
     expect(again.find(option => option.id === 'read-only')?.detail).toBe('Reads only.')
     expect(again.find(option => option.id === 'auto')?.detail)
-      .toBe('Run without a sandbox after an experimental same-model review of every native tool call and PTC inner call.')
+      .toBe('Run without a sandbox; before every native tool call and PTC inner call the same model reviews whether to allow it.')
     // English built-ins use product labels; other kebab-case names title-case.
-    expect(again.map(option => option.label)).toEqual(['Read Only', 'Workspace Write', 'Full access', 'Auto review'])
+    expect(again.map(option => option.label)).toEqual(['Read Only', 'Workspace Write', 'Full access', 'Auto'])
     expect(again.find(option => option.id === 'danger-full-access')?.confirmation).toEqual({
       title: 'Enable Full access?',
       description: accessEn['confirm.description'],
@@ -214,18 +214,17 @@ describe('ui-permission browser plugin', () => {
       confirmLabel: 'Enable Full access',
     })
     expect(again.find(option => option.id === 'auto')).toMatchObject({
-      badge: 'EXP',
       confirmation: {
-        title: 'Enable Auto review (experimental)?',
+        title: 'Enable Auto mode?',
         description: accessEn['auto.confirm.description'],
         acknowledgeLabel: 'I understand these risks and want to continue',
         cancelLabel: 'Cancel',
-        confirmLabel: 'Enable Auto review',
+        confirmLabel: 'Enable Auto mode',
       },
     })
     b.locale.setLocale('zh')
     const localized = await b.popup().options(proj, new AbortController().signal)
-    expect(localized.map(option => option.label)).toEqual(['仅可查看', '工作区内修改', '完全权限', '自动审查'])
+    expect(localized.map(option => option.label)).toEqual(['仅可查看', '工作区内修改', '完全权限', '自动'])
     expect(localized.find(option => option.id === 'danger-full-access')?.confirmation).toEqual({
       title: '确认启用完全权限？',
       description: accessZh['confirm.description'],
@@ -309,7 +308,7 @@ describe('ui-permission browser plugin', () => {
     b.values.set(sid('s1'), { currentValue: 'workspace-write' })
     const options = await b.popup().options(proj, new AbortController().signal)
     expect(options.find(option => option.id === 'auto')?.detail)
-      .toBe('无沙箱运行；每次原生工具调用和 PTC 内层调用前由同一模型进行实验性审查。')
+      .toBe('无沙箱运行；每次原生工具调用和 PTC 内层调用前，由同一模型审查是否允许。')
   })
 
   it('a pick submits the /permission line; rejection and unmatched throw', async () => {

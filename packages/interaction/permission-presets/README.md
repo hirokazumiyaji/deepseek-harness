@@ -9,7 +9,7 @@ English | [中文](README.zh.md)
 
 ## Summary
 
-Offer named permission modes that set sandbox and approval together while each enforcement service keeps its own value. Configured presets supply future-session defaults; an explicitly loaded Auto review integration can add one current-session-only option. Clients read selectable entries from a process catalog and the current choice from the Session projection. Unmatched knob combinations appear as `custom`, which users can leave but cannot select. This package owns selection and defaults; the sandbox, approval, and Auto integration own execution.
+Offer named permission modes that set sandbox and approval together while each enforcement service keeps its own value. Configured presets supply future-session defaults, and the live Auto review integration adds one option that is also selectable as the default. Clients read selectable entries from a process catalog and the current choice from the Session projection. Unmatched knob combinations appear as `custom`, which users can leave but cannot select. This package owns selection and defaults; the sandbox, approval, and Auto integration own execution.
 
 ## Table of Contents
 
@@ -47,9 +47,9 @@ The plugin config defines the preset table and the default for fresh sessions. E
 | Field | Default | Meaning |
 |---|---|---|
 | `presets` | `workspace-write`, `danger-full-access` | Table of preset name → sandbox/approval bundle |
-| `defaultPreset` | inferred | Preset pinned into fresh sessions; required when composition defaults match no preset |
+| `defaultPreset` | inferred | Preset pinned into fresh sessions; required when composition defaults match no preset. Accepts a configured name, or `auto` while its integration is live |
 
-The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-permission-presets) is the exhaustive source for every accepted field and its JSDoc. `custom` is reserved for the derived not-a-preset state, while `auto` is reserved for the Auto review integration. Mounting requires a confining bash executor (one that reports a `sandboxMode`), the approval service, and the Agent registry.
+The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-permission-presets) is the exhaustive source for every accepted field and its JSDoc. `custom` is reserved for the derived not-a-preset state, while `auto` is reserved for the Auto review integration. The reserved name `auto` is accepted as `defaultPreset` once that integration is live; a composition that configures it without the integration fails when the first session resolves the default. Mounting requires a confining bash executor (one that reports a `sandboxMode`), the approval service, and the Agent registry.
 
 ### Switching presets
 
@@ -61,7 +61,7 @@ Clients render selectable entries from the process catalog: configured presets i
 
 ### Session defaults
 
-The `permission` settings namespace holds `defaultPreset` for future sessions and accepts configured presets only. Agent creation reads it, applies it to the Session's sandbox mode and approval policy, and records the applied preset as a `permission/preset` selection. Later settings changes never alter an existing session. A resumed seed, including an explicitly empty one marked by `session/end-seed`, preserves its effective permission and receives only missing durable facts rather than the latest user default; a persisted `auto` identity requires the live Auto registration and its admission before publication.
+The `permission` settings namespace holds `defaultPreset` for future sessions and accepts configured presets and, while the integration is live, `auto`. Agent creation reads it, applies it to the Session's sandbox mode and approval policy, and records the applied preset as a `permission/preset` selection; a fresh Auto default runs the integration's admission check before those events are written. Without a live integration the first new session fails with `permission: default preset "auto" requires the live Auto review integration`. Later settings changes never alter an existing session. A resumed seed, including an explicitly empty one marked by `session/end-seed`, preserves its effective permission and receives only missing durable facts rather than the latest user default; a persisted `auto` identity requires the live Auto registration and its admission before publication.
 
 -----
 
@@ -92,7 +92,7 @@ The observable behavior is covered in [Use this package](#use-this-package); thi
 
 ### Session pinning and blank reuse
 
-Mounting pins the Sessions of every live and future Agent: a genuinely fresh session gains the configured default preset and both knob facts, while seeded or partially initialized sessions keep their effective knob values and gain only missing durable facts. The projection-owned seed marker makes this decision from the same incremental state as the knob values. The service installs its `agent/created` listener before starting projection registration, so creation during activation fails instead of skipping pinning. `prepend: true` places pinning before ordinary creation observers, which may read the recorded permission facts. A later listener using `prepend` can run earlier and must not assume pinning has finished. While its reader is not ready, Agent creation rolls back; callers must await plugin activation before creating or restoring Agents. Creating a Session without an Agent does not initialize permissions. A stored `auto` identity fails publication when the Auto integration is absent or rejects admission; the service neither rewrites it nor silently derives Full access.
+Mounting pins the Sessions of every live and future Agent: a genuinely fresh session gains the configured default preset — after its admission check when the default is Auto — and both knob facts, while seeded or partially initialized sessions keep their effective knob values and gain only missing durable facts. The projection-owned seed marker makes this decision from the same incremental state as the knob values. The service installs its `agent/created` listener before starting projection registration, so creation during activation fails instead of skipping pinning. `prepend: true` places pinning before ordinary creation observers, which may read the recorded permission facts. A later listener using `prepend` can run earlier and must not assume pinning has finished. While its reader is not ready, Agent creation rolls back; callers must await plugin activation before creating or restoring Agents. Creating a Session without an Agent does not initialize permissions. A stored `auto` identity fails publication when the Auto integration is absent or rejects admission; the service neither rewrites it nor silently derives Full access.
 
 ### Catalog, projection, and optional command
 
@@ -133,8 +133,8 @@ These limits define what the preset service does not offer. They are current pac
 - **Only two mechanism knobs are bundled** — presets select sandbox mode and approval policy; the fixed Auto integration adds admission behavior, but an agent/profile choice is not part of `PresetSpec`.
 - **`custom` is derived-only** — callers can switch away from an unmatched knob combination but cannot target or persist a named custom preset through this service.
 - **The configured preset table is fixed for the plugin lifetime** — only the fixed Auto contribution can change the live process catalog without reloading this service.
-- **Auto cannot become a default** — it exists only while its integration effect is live and is intentionally absent from the `permission` settings schema.
-- **Configured defaults must name a configured preset** — removing a referenced preset requires changing `defaultPreset` in the same Config edit.
+- **The Auto default requires its live integration** — a composition that removes `auto-review` while `defaultPreset` names `auto` fails new-session creation until the default changes.
+- **Defaults must name a configured preset or live Auto** — removing a referenced preset requires changing `defaultPreset` in the same Config edit.
 
 <a id="dev-note"></a>
 ### Dev Note

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Auto mode",
+    "description": "Run without a file sandbox after the same model reviews each tool call; a denied call still asks you."
+  }
+}

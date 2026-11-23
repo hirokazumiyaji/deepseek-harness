@@ -1,0 +1,52 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/bundle/tui-app/README.md
+/:
+  en: 62a0265fb0b87c91
+  zh: e2b2b5ba29ca8181
+/deepseek-ai-dsh-tui-app:
+  en: 6a23ca8f9a47405e
+  zh: b64330cf6abe3c84
+/deepseek-ai-dsh-tui-app/summary:
+  en: 93f6091f7e68e01c
+  zh: 02e7c9ec2e11b632
+/deepseek-ai-dsh-tui-app/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 014e89b1e3f7a6f1
+/deepseek-ai-dsh-tui-app/use-this-package:
+  en: 6d4fb5873715994e
+  zh: 6f78cb224c7681f1
+/deepseek-ai-dsh-tui-app/understand-the-implementation:
+  en: 42b15ac6321706aa
+  zh: e5fca241cd9a628d
+/deepseek-ai-dsh-tui-app/understand-the-implementation/layer-order:
+  en: b48220d1df7d97dc
+  zh: 398f3b071563ff74
+/deepseek-ai-dsh-tui-app/understand-the-implementation/entry-id:
+  en: e01d324fecef06bc
+  zh: e91386c551fecfd4
+/deepseek-ai-dsh-tui-app/further-exploration:
+  en: c62d013414d1c264
+  zh: f11b49e43ac60cba
+/deepseek-ai-dsh-tui-app/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-tui-app/model-experience/terminal-surface-composition:
+  en: b3aad55f0b523b3e
+  zh: d1670b1095c765ed
+/deepseek-ai-dsh-tui-app/model-experience/terminal-surface-composition/what-the-model-sees:
+  en: 912f53e2d66da599
+  zh: d8617b5cf1c06bac
+/deepseek-ai-dsh-tui-app/model-experience/terminal-surface-composition/token-effect:
+  en: f5ff1554d899d2a6
+  zh: c5993548dbbd6bc3
+/deepseek-ai-dsh-tui-app/model-experience/terminal-surface-composition/kv-cache-effect:
+  en: d8b91e76eb66d90f
+  zh: 6edb4576b9c0d7fa
+/deepseek-ai-dsh-tui-app/known-limitations-and-deferred-work:
+  en: c1d9e58d0c813a37
+  zh: 77c94cb51a7d54b9
+/deepseek-ai-dsh-tui-app/known-limitations-and-deferred-work/dev-note:
+  en: fbc2529e1a3d549b
+  zh: 4b32b989b6be25a3

@@ -95,9 +95,9 @@ dsh headless --permission-mode workspace-write --add-dir "$git_dir" --json - < t
 
 监督者中断进程后，必须等待进程退出再恢复其 Session。非零退出后也要保留事件日志。只有进程退出码为零且 `final.reason.kind === 'completed'` 时，才视为 agent 运行完成；随后单独判断 worker 的任务与检查报告。`tool_result` 的 `completed` 状态表示工具已返回，其中的 shell 命令仍可能以非零退出码结束。
 
-### Experimental Auto review
+### Auto 模式监督
 
-如需由模型审查后以完全访问权限执行，请显式启用[无界面监督流程的 Auto review](../../experimental/auto-review/README.zh.md#headless-supervision)，选择 `--permission-mode auto --approval-policy never` 并使用原生工具。Auto 在支持的调用执行前进行审查，不提供文件沙箱。其 JSON 拒绝结果让监督者检查失败并通过 `--session-id` 发送限定范围的修订指令。Headless 没有实时审批响应通道。
+如需由模型审查后以完全访问权限执行，请选择 `--permission-mode auto --approval-policy never` 并使用原生工具。随发行版交付的 base 会挂载[无界面监督流程的 Auto review](../../guard/auto-review/README.zh.md#selecting-auto)。Auto 在支持的调用执行前进行审查，不提供文件沙箱。其 JSON 拒绝结果让监督者检查失败并通过 `--session-id` 发送限定范围的修订指令。Headless 没有实时审批响应通道。
 
 ### 机器可读输出
 

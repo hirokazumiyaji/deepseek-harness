@@ -86,7 +86,6 @@ function optionsOf(
       label: option.value === AUTO_REVIEW_PRESET
         ? t('auto.label')
         : displayPermissionPreset(option.value, option.name, t),
-      ...(option.value === AUTO_REVIEW_PRESET ? { badge: t('auto.badge') } : {}),
       ...(option.value === AUTO_REVIEW_PRESET
         ? { detail: t('auto.description') }
         : option.description !== undefined ? { detail: option.description } : {}),

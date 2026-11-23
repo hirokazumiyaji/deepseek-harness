@@ -976,6 +976,7 @@ const requiredStartupEntryIds = new Set<string>([
   'modules',
   'connection',
   'headless-runner',
+  'tui',
   'acp',
   'sdk-jsonrpc-server',
 ])

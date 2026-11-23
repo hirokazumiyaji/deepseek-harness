@@ -17,6 +17,11 @@ export const zh = {
   'confirm.acknowledge': '我已了解风险，并愿意继续',
   'confirm.cancel': '取消',
   'confirm.enable': '启用完全权限',
+  'auto.label': '自动',
+  'auto.confirm.title': '确认启用自动模式？',
+  'auto.confirm.description': '自动模式不使用沙箱。每次原生工具调用和 PTC 内层调用前，都会由与当前 agent 相同的模型审查是否允许；审查拒绝的调用由你批准或拒绝。审查可能误放行或误拒绝操作，并会消耗额外 token。',
+  'auto.confirm.acknowledge': '我已了解这些风险，并愿意继续',
+  'auto.confirm.enable': '启用自动模式',
 } satisfies Record<string, string>
 
 /** The settings.permission namespace key union. */
@@ -36,6 +41,11 @@ export const en = {
   'confirm.acknowledge': 'I understand the risks and want to continue',
   'confirm.cancel': 'Cancel',
   'confirm.enable': 'Enable Full access',
+  'auto.label': 'Auto',
+  'auto.confirm.title': 'Enable Auto mode?',
+  'auto.confirm.description': 'Auto mode runs without a sandbox. Before every native tool call and PTC inner call, the same model as the current agent reviews whether to allow it; you approve or reject each call it denies. A review can wrongly allow or deny an action and uses additional tokens.',
+  'auto.confirm.acknowledge': 'I understand these risks and want to continue',
+  'auto.confirm.enable': 'Enable Auto mode',
 } satisfies Record<PermissionSettingsKey, string>
 
 /** Simplified Chinese dictionary for the current-session popup gate. */
@@ -50,13 +60,12 @@ export const accessZh = {
   'confirm.acknowledge': '我已了解风险，并愿意继续',
   'confirm.cancel': '取消',
   'confirm.enable': '启用完全权限',
-  'auto.label': '自动审查',
-  'auto.badge': 'EXP',
-  'auto.description': '无沙箱运行；每次原生工具调用和 PTC 内层调用前由同一模型进行实验性审查。',
-  'auto.confirm.title': '确认启用自动审查（实验）？',
-  'auto.confirm.description': '自动审查不使用沙箱。每次原生工具调用和 PTC 内层调用前，都会由与当前 agent 相同的模型进行审查；审查拒绝的调用由你批准或拒绝。此功能仍属实验性，可能误放行或误拒绝，并会消耗额外 token。',
+  'auto.label': '自动',
+  'auto.description': '无沙箱运行；每次原生工具调用和 PTC 内层调用前，由同一模型审查是否允许。',
+  'auto.confirm.title': '确认启用自动模式？',
+  'auto.confirm.description': '自动模式不使用沙箱。每次原生工具调用和 PTC 内层调用前，都会由与当前 agent 相同的模型审查是否允许；审查拒绝的调用由你批准或拒绝。审查可能误放行或误拒绝操作，并会消耗额外 token。',
   'auto.confirm.acknowledge': '我已了解这些风险，并愿意继续',
-  'auto.confirm.enable': '启用自动审查',
+  'auto.confirm.enable': '启用自动模式',
 } satisfies Record<string, string>
 
 /** Current-session popup-gate key union. */
@@ -74,13 +83,12 @@ export const accessEn = {
   'confirm.acknowledge': 'I understand the risks and want to continue',
   'confirm.cancel': 'Cancel',
   'confirm.enable': 'Enable Full access',
-  'auto.label': 'Auto review',
-  'auto.badge': 'EXP',
-  'auto.description': 'Run without a sandbox after an experimental same-model review of every native tool call and PTC inner call.',
-  'auto.confirm.title': 'Enable Auto review (experimental)?',
-  'auto.confirm.description': 'Auto review runs without a sandbox. Before every native tool call and PTC inner call, the same model as the current agent reviews whether to allow it; you approve or reject each call it denies. This feature is experimental, can falsely allow or deny actions, and uses additional tokens.',
+  'auto.label': 'Auto',
+  'auto.description': 'Run without a sandbox; before every native tool call and PTC inner call the same model reviews whether to allow it.',
+  'auto.confirm.title': 'Enable Auto mode?',
+  'auto.confirm.description': 'Auto mode runs without a sandbox. Before every native tool call and PTC inner call, the same model as the current agent reviews whether to allow it; you approve or reject each call it denies. A review can wrongly allow or deny an action and uses additional tokens.',
   'auto.confirm.acknowledge': 'I understand these risks and want to continue',
-  'auto.confirm.enable': 'Enable Auto review',
+  'auto.confirm.enable': 'Enable Auto mode',
 } satisfies Record<PermissionAccessKey, string>
 
 /** Japanese copy, checked against the English keys. */
@@ -97,6 +105,11 @@ export const ja = {
   'confirm.acknowledge': 'リスクを理解し、続行します',
   'confirm.cancel': 'キャンセル',
   'confirm.enable': 'フルアクセスを有効にする',
+  'auto.label': '自動',
+  'auto.confirm.title': '自動モードを有効にしますか？',
+  'auto.confirm.description': '自動モードはサンドボックスなしで実行されます。ネイティブツール呼び出しと PTC 内部呼び出しのたびに、現在のエージェントと同じモデルが許可可否をレビューし、拒否された呼び出しはあなたが承認または却下します。レビューは操作を誤って許可・拒否する可能性があり、追加のトークンを消費します。',
+  'auto.confirm.acknowledge': 'これらのリスクを理解し、続行します',
+  'auto.confirm.enable': '自動モードを有効にする',
 } satisfies Record<keyof typeof en, string>
 
 /** Spanish dictionary, checked against the English keys. */
@@ -113,6 +126,11 @@ export const es = {
   'confirm.acknowledge': 'Entiendo los riesgos y quiero continuar.',
   'confirm.cancel': 'Cancelar',
   'confirm.enable': 'Habilitar acceso completo',
+  'auto.label': 'Automático',
+  'auto.confirm.title': '¿Habilitar el modo automático?',
+  'auto.confirm.description': 'El modo automático se ejecuta sin zona de pruebas. Antes de cada llamada a herramienta nativa y llamada interna PTC, el mismo modelo que el agente actual revisa si se permite; usted aprueba o rechaza cada llamada que rechaza. La revisión puede permitir o denegar acciones erróneamente y utiliza tokens adicionales.',
+  'auto.confirm.acknowledge': 'Entiendo estos riesgos y quiero continuar',
+  'auto.confirm.enable': 'Habilitar el modo automático',
 } satisfies Record<keyof typeof en, string>
 
 /** French dictionary, checked against the English keys. */
@@ -129,6 +147,11 @@ export const fr = {
   'confirm.acknowledge': 'Je comprends les risques et je veux continuer',
   'confirm.cancel': 'Annuler',
   'confirm.enable': "Activer l'accès complet",
+  'auto.label': 'Auto',
+  'auto.confirm.title': 'Activer le mode auto ?',
+  'auto.confirm.description': "Le mode auto fonctionne sans bac à sable. Avant chaque appel d'outil natif et appel interne PTC, le même modèle que l'agent actuel vérifie s'il doit l'autoriser ; vous approuvez ou rejetez chaque appel qu'il refuse. L'examen peut autoriser ou refuser une action à tort et utilise des jetons supplémentaires.",
+  'auto.confirm.acknowledge': 'Je comprends ces risques et je veux continuer',
+  'auto.confirm.enable': 'Activer le mode auto',
 } satisfies Record<keyof typeof en, string>
 
 /** German dictionary, checked against the English keys. */
@@ -145,6 +168,11 @@ export const de = {
   'confirm.acknowledge': 'Ich verstehe die Risiken und möchte weitermachen',
   'confirm.cancel': 'Abbrechen',
   'confirm.enable': 'Aktivieren Sie Vollzugriff',
+  'auto.label': 'Auto',
+  'auto.confirm.title': 'Auto-Modus aktivieren?',
+  'auto.confirm.description': 'Der Auto-Modus läuft ohne Sandbox. Vor jedem nativen Tool-Aufruf und PTC-Innenaufruf prüft dasselbe Modell wie der aktuelle Agent, ob der Aufruf zulässig ist; Sie genehmigen oder lehnen jeden abgelehnten Aufruf ab. Eine Prüfung kann Aktionen fälschlicherweise zulassen oder verweigern und verbraucht zusätzliche Token.',
+  'auto.confirm.acknowledge': 'Ich verstehe diese Risiken und möchte weitermachen',
+  'auto.confirm.enable': 'Auto-Modus aktivieren',
 } satisfies Record<keyof typeof en, string>
 
 /** Russian dictionary, checked against the English keys. */
@@ -161,6 +189,11 @@ export const ru = {
   'confirm.acknowledge': 'Я понимаю риски и хочу продолжить',
   'confirm.cancel': 'Отмена',
   'confirm.enable': 'Включить полный доступ',
+  'auto.label': 'Авто',
+  'auto.confirm.title': 'Включить авторежим?',
+  'auto.confirm.description': 'Авторежим работает без песочницы. Перед каждым вызовом встроенного инструмента и внутренним вызовом PTC та же модель, что и текущий агент, проверяет, разрешить ли вызов; вы одобряете или отклоняете каждый отклонённый вызов. Проверка может ошибочно разрешать или запрещать действия и использует дополнительные токены.',
+  'auto.confirm.acknowledge': 'Я понимаю эти риски и хочу продолжить',
+  'auto.confirm.enable': 'Включить авторежим',
 } satisfies Record<keyof typeof en, string>
 
 /** Portuguese dictionary, checked against the English keys. */
@@ -177,6 +210,11 @@ export const pt = {
   'confirm.acknowledge': 'Entendo os riscos e quero continuar',
   'confirm.cancel': 'Cancelar',
   'confirm.enable': 'Ativar acesso total',
+  'auto.label': 'Automático',
+  'auto.confirm.title': 'Ativar o modo automático?',
+  'auto.confirm.description': 'O modo automático é executado sem sandbox. Antes de cada chamada de ferramenta nativa e chamada interna PTC, o mesmo modelo do agente atual analisa se deve permitir; você aprova ou rejeita cada chamada negada. A revisão pode permitir ou negar ações por engano e usa tokens adicionais.',
+  'auto.confirm.acknowledge': 'Entendo esses riscos e quero continuar',
+  'auto.confirm.enable': 'Ativar o modo automático',
 } satisfies Record<keyof typeof en, string>
 
 /** Japanese copy, checked against the English keys. */
@@ -191,13 +229,12 @@ export const accessJa = {
   'confirm.acknowledge': 'リスクを理解し、続行します',
   'confirm.cancel': 'キャンセル',
   'confirm.enable': 'フルアクセスを有効にする',
-  'auto.label': '自動認可レビュー',
-  'auto.badge': 'EXP',
-  'auto.description': 'すべてのネイティブツール呼び出しと PTC 内部呼び出しを実験的な同一モデルでレビューしたうえで、サンドボックスなしで実行します。',
-  'auto.confirm.title': '自動認可レビュー（実験的）を有効にしますか？',
-  'auto.confirm.description': '自動認可レビューはサンドボックスなしで実行されます。ネイティブツール呼び出しと PTC 内部呼び出しのたびに、現在のエージェントと同じモデルが許可可否をレビューし、拒否された呼び出しはあなたが承認または却下します。この機能は実験的であり、操作を誤って許可・拒否する可能性があり、追加のトークンを消費します。',
+  'auto.label': '自動',
+  'auto.description': 'サンドボックスなしで実行し、ネイティブツール呼び出しと PTC 内部呼び出しのたびに同じモデルが許可可否をレビューします。',
+  'auto.confirm.title': '自動モードを有効にしますか？',
+  'auto.confirm.description': '自動モードはサンドボックスなしで実行されます。ネイティブツール呼び出しと PTC 内部呼び出しのたびに、現在のエージェントと同じモデルが許可可否をレビューし、拒否された呼び出しはあなたが承認または却下します。レビューは操作を誤って許可・拒否する可能性があり、追加のトークンを消費します。',
   'auto.confirm.acknowledge': 'これらのリスクを理解し、続行します',
-  'auto.confirm.enable': '自動認可レビューを有効にする',
+  'auto.confirm.enable': '自動モードを有効にする',
 } satisfies Record<keyof typeof accessEn, string>
 
 /** Spanish dictionary, checked against the English keys. */
@@ -212,13 +249,12 @@ export const accessEs = {
   'confirm.acknowledge': 'Entiendo los riesgos y quiero continuar.',
   'confirm.cancel': 'Cancelar',
   'confirm.enable': 'Habilitar acceso completo',
-  'auto.label': 'Auto review',
-  'auto.badge': 'EXP',
-  'auto.description': 'Ejecute sin una zona de pruebas después de una revisión experimental del mismo modelo de cada llamada de herramienta nativa y llamada interna PTC.',
-  'auto.confirm.title': '¿Habilitar Auto review (experimental)?',
-  'auto.confirm.description': 'Auto review se ejecuta sin zona de pruebas. Antes de cada llamada a la herramienta nativa y llamada interna PTC, el mismo modelo que el agente actual revisa si se permite; usted aprueba o rechaza cada llamada que rechaza. Esta característica es experimental, puede permitir o denegar acciones falsamente y utiliza tokens adicionales.',
+  'auto.label': 'Automático',
+  'auto.description': 'Ejecute sin zona de pruebas; antes de cada llamada a herramienta nativa y llamada interna PTC, el mismo modelo revisa si se permite.',
+  'auto.confirm.title': '¿Habilitar el modo automático?',
+  'auto.confirm.description': 'El modo automático se ejecuta sin zona de pruebas. Antes de cada llamada a herramienta nativa y llamada interna PTC, el mismo modelo que el agente actual revisa si se permite; usted aprueba o rechaza cada llamada que rechaza. La revisión puede permitir o denegar acciones erróneamente y utiliza tokens adicionales.',
   'auto.confirm.acknowledge': 'Entiendo estos riesgos y quiero continuar',
-  'auto.confirm.enable': 'Habilitar Auto review',
+  'auto.confirm.enable': 'Habilitar el modo automático',
 } satisfies typeof accessEn
 
 /** French dictionary, checked against the English keys. */
@@ -233,13 +269,12 @@ export const accessFr = {
   'confirm.acknowledge': 'Je comprends les risques et je veux continuer',
   'confirm.cancel': 'Annuler',
   'confirm.enable': "Activer l'accès complet",
-  'auto.label': 'Auto review',
-  'auto.badge': 'EXP',
-  'auto.description': "Exécutez sans bac à sable après un examen expérimental sur le même modèle de chaque appel d'outil natif et appel interne PTC.",
-  'auto.confirm.title': 'Activer Auto review (expérimental) ?',
-  'auto.confirm.description': "Auto review fonctionne sans bac à sable. Avant chaque appel d'outil natif et appel interne PTC, le même modèle que l'agent actuel vérifie s'il doit l'autoriser ; vous approuvez ou rejetez chaque appel qu'il refuse. Cette fonctionnalité est expérimentale, peut autoriser ou refuser à tort des actions et utilise des jetons supplémentaires.",
+  'auto.label': 'Auto',
+  'auto.description': 'Exécutez sans bac à sable ; avant chaque appel d\'outil natif et appel interne PTC, le même modèle vérifie s\'il doit l\'autoriser.',
+  'auto.confirm.title': 'Activer le mode auto ?',
+  'auto.confirm.description': 'Le mode auto fonctionne sans bac à sable. Avant chaque appel d\'outil natif et appel interne PTC, le même modèle que l\'agent actuel vérifie s\'il doit l\'autoriser ; vous approuvez ou rejetez chaque appel qu\'il refuse. L\'examen peut autoriser ou refuser une action à tort et utilise des jetons supplémentaires.',
   'auto.confirm.acknowledge': 'Je comprends ces risques et je veux continuer',
-  'auto.confirm.enable': 'Activer Auto review',
+  'auto.confirm.enable': 'Activer le mode auto',
 } satisfies typeof accessEn
 
 /** German dictionary, checked against the English keys. */
@@ -254,13 +289,12 @@ export const accessDe = {
   'confirm.acknowledge': 'Ich verstehe die Risiken und möchte weitermachen',
   'confirm.cancel': 'Abbrechen',
   'confirm.enable': 'Aktivieren Sie Vollzugriff',
-  'auto.label': 'Auto review',
-  'auto.badge': 'EXP',
-  'auto.description': 'Ausführung ohne Sandbox nach einer experimentellen, modellgleichen Überprüfung jedes nativen Toolaufrufs und PTC-Innenaufrufs.',
-  'auto.confirm.title': 'Auto review aktivieren (experimentell)?',
-  'auto.confirm.description': 'Auto review läuft ohne Sandbox. Vor jedem nativen Tool-Aufruf und PTC-Innenaufruf überprüft dasselbe Modell wie der aktuelle Agent, ob dies zulässig ist. Sie genehmigen oder lehnen jeden abgelehnten Aufruf ab. Diese Funktion ist experimentell, kann Aktionen fälschlicherweise zulassen oder verweigern und verwendet zusätzliche Token.',
+  'auto.label': 'Auto',
+  'auto.description': 'Ausführung ohne Sandbox; vor jedem nativen Toolaufruf und PTC-Innenaufruf prüft dasselbe Modell, ob er zulässig ist.',
+  'auto.confirm.title': 'Auto-Modus aktivieren?',
+  'auto.confirm.description': 'Der Auto-Modus läuft ohne Sandbox. Vor jedem nativen Tool-Aufruf und PTC-Innenaufruf prüft dasselbe Modell wie der aktuelle Agent, ob der Aufruf zulässig ist; Sie genehmigen oder lehnen jeden abgelehnten Aufruf ab. Eine Prüfung kann Aktionen fälschlicherweise zulassen oder verweigern und verbraucht zusätzliche Token.',
   'auto.confirm.acknowledge': 'Ich verstehe diese Risiken und möchte weitermachen',
-  'auto.confirm.enable': 'Aktivieren Sie Auto review',
+  'auto.confirm.enable': 'Auto-Modus aktivieren',
 } satisfies typeof accessEn
 
 /** Russian dictionary, checked against the English keys. */
@@ -275,13 +309,12 @@ export const accessRu = {
   'confirm.acknowledge': 'Я понимаю риски и хочу продолжить',
   'confirm.cancel': 'Отмена',
   'confirm.enable': 'Включить полный доступ',
-  'auto.label': 'Auto review',
-  'auto.badge': 'EXP',
-  'auto.description': 'Запуск без песочницы после экспериментальной проверки одной и той же модели каждого вызова встроенного инструмента и внутреннего вызова PTC.',
-  'auto.confirm.title': 'Включить Auto review (экспериментально)?',
-  'auto.confirm.description': 'Auto review работает без песочницы. Перед каждым вызовом собственного инструмента и внутренним вызовом PTC та же модель, что и текущий агент, проверяет, разрешить ли это; вы одобряете или отклоняете каждый вызов, который он отклоняет. Эта функция является экспериментальной, может ошибочно разрешать или запрещать действия и использует дополнительные токены.',
+  'auto.label': 'Авто',
+  'auto.description': 'Запуск без песочницы; перед каждым вызовом встроенного инструмента и внутренним вызовом PTC та же модель проверяет, разрешить ли его.',
+  'auto.confirm.title': 'Включить авторежим?',
+  'auto.confirm.description': 'Авторежим работает без песочницы. Перед каждым вызовом встроенного инструмента и внутренним вызовом PTC та же модель, что и текущий агент, проверяет, разрешить ли вызов; вы одобряете или отклоняете каждый отклонённый вызов. Проверка может ошибочно разрешать или запрещать действия и использует дополнительные токены.',
   'auto.confirm.acknowledge': 'Я понимаю эти риски и хочу продолжить',
-  'auto.confirm.enable': 'Включить Auto review',
+  'auto.confirm.enable': 'Включить авторежим',
 } satisfies typeof accessEn
 
 /** Portuguese dictionary, checked against the English keys. */
@@ -296,11 +329,10 @@ export const accessPt = {
   'confirm.acknowledge': 'Entendo os riscos e quero continuar',
   'confirm.cancel': 'Cancelar',
   'confirm.enable': 'Ativar acesso total',
-  'auto.label': 'Auto review',
-  'auto.badge': 'EXP',
-  'auto.description': 'Execute sem um sandbox após uma revisão experimental do mesmo modelo de cada chamada de ferramenta nativa e PTC chamada interna.',
-  'auto.confirm.title': 'Ativar Auto review (experimental)?',
-  'auto.confirm.description': 'Auto review é executado sem sandbox. Antes de cada chamada de ferramenta nativa e chamada interna PTC, o mesmo modelo do agente atual analisa se deve permitir isso; você aprova ou rejeita cada chamada negada. Este recurso é experimental, pode permitir ou negar ações falsamente e usa tokens adicionais.',
+  'auto.label': 'Automático',
+  'auto.description': 'Execute sem sandbox; antes de cada chamada de ferramenta nativa e chamada interna PTC, o mesmo modelo revisa se deve permitir.',
+  'auto.confirm.title': 'Ativar o modo automático?',
+  'auto.confirm.description': 'O modo automático é executado sem sandbox. Antes de cada chamada de ferramenta nativa e chamada interna PTC, o mesmo modelo do agente atual analisa se deve permitir; você aprova ou rejeita cada chamada negada. A revisão pode permitir ou negar ações por engano e usa tokens adicionais.',
   'auto.confirm.acknowledge': 'Entendo esses riscos e quero continuar',
-  'auto.confirm.enable': 'Ativar Auto review',
+  'auto.confirm.enable': 'Ativar o modo automático',
 } satisfies typeof accessEn

@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for 2026-11-21-auto-mode-product.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-11-21-auto-mode-product.md
+/agent-note-auto-mode-as-a-product-permission-mode:
+  en: e9efcda567ccc681
+  zh: 9d9382e577588be5
+/agent-note-auto-mode-as-a-product-permission-mode/problem:
+  en: faf5ab20924a2fe4
+  zh: 578be7f4dc4706cf
+/agent-note-auto-mode-as-a-product-permission-mode/decision:
+  en: 95d1cbee2fc6352b
+  zh: eb665137a4d41dce
+/agent-note-auto-mode-as-a-product-permission-mode/alternatives-considered:
+  en: cb1ce8ec81449406
+  zh: 895acd3f3affaf7e
+/agent-note-auto-mode-as-a-product-permission-mode/consequences:
+  en: 2c3109cd26ff72fb
+  zh: f3cc6f345b40677f
+/agent-note-auto-mode-as-a-product-permission-mode/testing:
+  en: e6b5ae9d31de2c88
+  zh: b1a20435b0b5f400

@@ -418,6 +418,21 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
       expect(acpHelp.stderr).toBe('')
       expect(acpHelp.stdout).toContain('Usage: dsh --profile acp')
 
+      const tuiHelp = await runBuiltBin(['tui', '--help'], {
+        DSH_HOME: home,
+        DSH_TELEMETRY_DISABLED: '1',
+      })
+      expect(tuiHelp.code).toBe(0)
+      expect(tuiHelp.stderr).toBe('')
+      expect(tuiHelp.stdout).toContain('Usage: dsh --profile tui')
+
+      const tuiWithoutTty = await runBuiltBin(['tui'], {
+        DSH_HOME: home,
+        DSH_TELEMETRY_DISABLED: '1',
+      })
+      expect(tuiWithoutTty.code).toBe(1)
+      expect(tuiWithoutTty.stderr).toContain('requires stdin and stdout to be interactive TTYs')
+
       const missingTask = await runBuiltBin(['--profile', 'headless'], {
         DSH_HOME: home,
         DSH_TELEMETRY_DISABLED: '1',

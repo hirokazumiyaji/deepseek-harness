@@ -1,0 +1,73 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/guard/auto-review/README.md
+/:
+  en: 7d6655b7c68fd198
+  zh: 913934c63ff18cfb
+/deepseek-ai-dsh-auto-review:
+  en: ec6fbd6f3fd541b9
+  zh: 77d3cd969b88953c
+/deepseek-ai-dsh-auto-review/summary:
+  en: b2419d8b57efefd9
+  zh: 195197ac379c53c7
+/deepseek-ai-dsh-auto-review/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 09388d293f9be9cb
+/deepseek-ai-dsh-auto-review/use-this-package:
+  en: 1885a4e9775d4b6c
+  zh: 51b447cbeb27155c
+/deepseek-ai-dsh-auto-review/use-this-package/selecting-auto:
+  en: caabb2a980212409
+  zh: 12934825e7ddf0f2
+/deepseek-ai-dsh-auto-review/use-this-package/composition:
+  en: 906e34aec91a92bc
+  zh: 1696ffd55d49c3b4
+/deepseek-ai-dsh-auto-review/use-this-package/what-you-get:
+  en: 68fbe81265de3d55
+  zh: 3182d775aec6ec1d
+/deepseek-ai-dsh-auto-review/understand-the-implementation:
+  en: 42b15ac6321706aa
+  zh: cfcb757213648bd9
+/deepseek-ai-dsh-auto-review/understand-the-implementation/source-map:
+  en: 192292cd4b2e36ae
+  zh: c31351ac7e24206d
+/deepseek-ai-dsh-auto-review/understand-the-implementation/review-path:
+  en: 23f951182da4963f
+  zh: d3998625ea3171b5
+/deepseek-ai-dsh-auto-review/further-exploration:
+  en: 684e15a910689785
+  zh: e7e3abd28a2bfaea
+/deepseek-ai-dsh-auto-review/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-auto-review/model-experience/per-call-reviewer:
+  en: 7ec217b1012cd8fa
+  zh: 857c7b30b8472368
+/deepseek-ai-dsh-auto-review/model-experience/per-call-reviewer/what-the-model-sees:
+  en: d1670b32b5be6795
+  zh: eedb6beaa10b7fd2
+/deepseek-ai-dsh-auto-review/model-experience/per-call-reviewer/token-effect:
+  en: 9c3e575c061d53fe
+  zh: ef03c446c54fb18c
+/deepseek-ai-dsh-auto-review/model-experience/per-call-reviewer/kv-cache-effect:
+  en: ec9e16640f1ea1bc
+  zh: 54956ffa114f0f17
+/deepseek-ai-dsh-auto-review/model-experience/tool-denial:
+  en: f9b4d7b686f14fc5
+  zh: a2fac9a8eaf5e2a3
+/deepseek-ai-dsh-auto-review/model-experience/tool-denial/what-the-model-sees:
+  en: a0b93e8eebc1b497
+  zh: 8d1cf641c5a84560
+/deepseek-ai-dsh-auto-review/model-experience/tool-denial/token-effect:
+  en: 679cb3d82e97022f
+  zh: 7d604049009f9c5a
+/deepseek-ai-dsh-auto-review/model-experience/tool-denial/kv-cache-effect:
+  en: 8da1089dee147f94
+  zh: eaf8aaae72062dac
+/deepseek-ai-dsh-auto-review/known-limitations-and-deferred-work:
+  en: 7349fbda336ab12d
+  zh: 5e0aa02131094bff
+/deepseek-ai-dsh-auto-review/known-limitations-and-deferred-work/dev-note:
+  en: e67f633dc6fe7773
+  zh: 19552bf86462c38f

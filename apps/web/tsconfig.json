@@ -236,6 +236,7 @@
     "tests/skill-menu-plugin-change.e2e.ts",
     "tests/permission-policy-context.e2e.ts",
     "tests/access-confirmation.e2e.ts",
+    "tests/auto-default.e2e.ts",
     "tests/agent-preset-selection.e2e.ts",
     "tests/agent-preset-authoring.e2e.ts",
     "tests/shipped-composition.e2e.ts",
@@ -293,7 +294,7 @@
     "tests/feishu-connection.e2e.ts"
   ],
   "references": [
-    { "path": "../../packages/experimental/auto-review" },
+    { "path": "../../packages/guard/auto-review" },
     {
       "path": "../../packages/client/store"
     },

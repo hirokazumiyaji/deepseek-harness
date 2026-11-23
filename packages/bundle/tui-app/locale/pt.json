@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Perfil de terminal",
+    "description": "Abre a interface interativa de terminal sobre o dsh-base: respostas em streaming, cartões de ferramentas, aprovações, perguntas e comandos com barra, sem camadas de Host, HTTP ou navegador."
+  }
+}

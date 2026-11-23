@@ -15,7 +15,7 @@ import { PermissionPresetSettingsController } from '../src/client/settings-store
 const useResource = (() => ({ status: 'none' as const, value: undefined, failure: undefined, reload: () => {} })) as GlobalStandardProps['useResource']
 const usePanelInfo: GlobalStandardProps['usePanelInfo'] = selector => selector({ activePanelId: null })
 
-const catalog = { options: [], defaultPreset: 'read-only', defaultOptions: ['read-only', 'workspace-write', 'danger-full-access'].map(value => ({ value, name: value })) }
+const catalog = { options: [], defaultPreset: 'read-only', defaultOptions: ['read-only', 'workspace-write', 'danger-full-access', 'auto'].map(value => ({ value, name: value })) }
 const directory = { store: createSnapshotStore({ value: catalog }), load: () => Promise.resolve(catalog) }
 
 /** Controller over a real mirror derived from the same scripted context. */
@@ -24,7 +24,10 @@ function derivedController(remote: { settings: object }) {
   return new PermissionPresetSettingsController(new SettingsDescribeMirror(ctx), ctx, directory)
 }
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  directory.store.set({ value: catalog })
+})
 
 const SCHEMA = {
   uid: 5,
@@ -131,6 +134,52 @@ describe('PermissionRow', () => {
     fireEvent.click(enable)
     await waitFor(() => { expect(mutate).toHaveBeenCalledOnce() })
     expect(dialog.isConnected).toBe(false)
+  })
+
+  it('requires explicit acknowledgement before saving Auto as the default', async () => {
+    const mutate = vi.fn(() => Promise.resolve(ok(view('auto', 1))))
+    const controller = derivedController({
+      settings: {
+        describe: () => Promise.resolve(ok({ writable: true, hasDocument: false, namespaces: [view('read-only')] })),
+        mutate,
+      },
+    })
+    mount(controller)
+    fireEvent.click(await screen.findByRole('button', { name: '仅可查看' }))
+    fireEvent.click(screen.getByRole('menuitem', { name: '自动' }))
+    expect(mutate).not.toHaveBeenCalled()
+    const dialog = screen.getByRole('dialog', { name: '确认启用自动模式？' })
+    const enable = screen.getByRole('button', { name: '启用自动模式' })
+    expect((enable as HTMLButtonElement).disabled).toBe(true)
+    fireEvent.click(screen.getByRole('checkbox'))
+    fireEvent.click(enable)
+    await waitFor(() => { expect(mutate).toHaveBeenCalledOnce() })
+    expect(mutate).toHaveBeenCalledWith(
+      'permission',
+      [{ op: 'set', path: ['defaultPreset'], value: 'auto' }],
+      0,
+    )
+    await screen.findByRole('button', { name: '自动' })
+    expect(dialog.isConnected).toBe(false)
+  })
+
+  it('closes an Auto confirmation when the live catalog withdraws Auto', async () => {
+    const mutate = vi.fn()
+    const controller = derivedController({
+      settings: {
+        describe: () => Promise.resolve(ok({ writable: true, hasDocument: false, namespaces: [view('read-only')] })),
+        mutate,
+      },
+    })
+    mount(controller)
+    fireEvent.click(await screen.findByRole('button', { name: '仅可查看' }))
+    fireEvent.click(screen.getByRole('menuitem', { name: '自动' }))
+    screen.getByRole('dialog', { name: '确认启用自动模式？' })
+    directory.store.update((state) => {
+      state.value = { ...catalog, defaultOptions: catalog.defaultOptions.filter(option => option.value !== 'auto') }
+    })
+    await waitFor(() => { expect(screen.queryByRole('dialog', { name: '确认启用自动模式？' })).toBeNull() })
+    expect(mutate).not.toHaveBeenCalled()
   })
 
   it('hides an unavailable namespace and disables a read-only provider', async () => {

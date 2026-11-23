@@ -31,7 +31,7 @@ it.each(languages)('selects %s from the browser, localizes metadata and persists
   await expect.poll(() => page.evaluate(() => document.documentElement.lang)).toBe(id)
   await page.getByRole('button', { name: plugins, exact: true }).click()
   const panel = page.locator('[data-plugin-panel]')
-  const metadata = JSON.parse(await readFile(new URL(`../../../packages/experimental/auto-review/locale/${id}.json`, import.meta.url), 'utf8')) as { meta: { title: string; description: string } }
+  const metadata = JSON.parse(await readFile(new URL(`../../../packages/experimental/voice-input-bundle/locale/${id}.json`, import.meta.url), 'utf8')) as { meta: { title: string; description: string } }
   await panel.getByText(metadata.meta.title, { exact: true }).waitFor()
   await panel.getByText(metadata.meta.description, { exact: true }).waitFor()
   await compareOrRefreshGolden(fileURLToPath(new URL(`./expected/additional-locales/${id}.expected.md`, import.meta.url)),

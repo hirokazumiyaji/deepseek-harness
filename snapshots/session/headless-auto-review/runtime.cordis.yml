@@ -1,4 +1,4 @@
-# Auto stays opt-in; the reviewer is scripted while the main model replays its Session.
+# Auto mode comes from the shipped base row; only the reviewer is scripted.
 - id: headless-runner
   inject: [headlessStartup]
   config:
@@ -9,8 +9,6 @@
     approvalPolicy: never
 
 - insert:
-    - id: auto-review
-      name: '@deepseek-ai/dsh-experimental-auto-review'
     - id: headless-auto-review-fixture
-      name: '../../../packages/experimental/auto-review/tests/fixtures/headless-reviewer.ts'
+      name: '../../../packages/guard/auto-review/tests/fixtures/headless-reviewer.ts'
       config: {}

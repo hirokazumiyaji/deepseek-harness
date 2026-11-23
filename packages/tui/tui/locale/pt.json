@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Interface de terminal",
+    "description": "Executa um Agent interativo no terminal: respostas em streaming, cartões de ferramentas, aprovações, perguntas, comandos com barra e retomada."
+  }
+}

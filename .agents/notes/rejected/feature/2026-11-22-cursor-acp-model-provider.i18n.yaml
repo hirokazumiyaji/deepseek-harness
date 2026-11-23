@@ -1,0 +1,34 @@
+# Bilingual-pair consistency record for 2026-11-22-cursor-acp-model-provider.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/rejected/feature/2026-11-22-cursor-acp-model-provider.md
+/agent-note-cursor-acp-as-a-model-provider:
+  en: b9891e9d04b684d7
+  zh: 575c72df2b25fa43
+/agent-note-cursor-acp-as-a-model-provider/problem:
+  en: 08dcb6bff069afc5
+  zh: 444bd317abe2064d
+/agent-note-cursor-acp-as-a-model-provider/proposal:
+  en: 9c1e74c80115971e
+  zh: f5f067eaa8114d15
+/agent-note-cursor-acp-as-a-model-provider/what-was-measured:
+  en: 1d56d2ff57c4dc28
+  zh: 4cc494aa8be171b2
+/agent-note-cursor-acp-as-a-model-provider/what-was-not-tested:
+  en: 587f4fc215d2ea45
+  zh: 7b7dacb2604f4fd9
+/agent-note-cursor-acp-as-a-model-provider/why-the-provider-route-does-not-fit:
+  en: 531aa919b7e1613c
+  zh: a2f124d4fa79d6c5
+/agent-note-cursor-acp-as-a-model-provider/terms-and-policy-analysis:
+  en: cfabef594e7faadd
+  zh: 08cccd4b7e93591f
+/agent-note-cursor-acp-as-a-model-provider/alternatives-considered:
+  en: 28ce0b050ef45a73
+  zh: 56cc62817d2e0676
+/agent-note-cursor-acp-as-a-model-provider/reintroduction-conditions:
+  en: 2e10ea3041514a3b
+  zh: feafc183db0e71e0
+/agent-note-cursor-acp-as-a-model-provider/related:
+  en: 4b89bd67fd87be23
+  zh: 55cb0de6c4f290af

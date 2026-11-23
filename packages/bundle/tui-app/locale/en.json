@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Terminal profile",
+    "description": "Open the interactive terminal surface over dsh-base: streamed replies, tool cards, approvals, questions, and slash commands, with no Host, HTTP, or browser layer."
+  }
+}

@@ -46,8 +46,8 @@ const piAiDefaultsConfigPath = fileURLToPath(new URL('./fixtures/pi-ai-defaults.
 const piAiConversationUpdatesConfigPath = fileURLToPath(new URL('./fixtures/pi-ai-conversation-updates.patch.yml', import.meta.url))
 const headlessOverlayPath = fileURLToPath(new URL('./fixtures/headless-profile.patch.yml', import.meta.url))
 const autoReviewOverlayPath = fileURLToPath(new URL('./fixtures/auto-review.patch.yml', import.meta.url))
+const autoReviewDisabledPath = fileURLToPath(new URL('./fixtures/auto-review-disabled.patch.yml', import.meta.url))
 const autoShutdownOverlayPath = fileURLToPath(new URL('./fixtures/auto-shutdown.patch.yml', import.meta.url))
-const autoIntegrationPath = fileURLToPath(new URL('../../../../../../packages/experimental/auto-review/cordis.patch.yml', import.meta.url))
 const headlessSessionExpected = join(goldensDir, 'headless-profile', 'session.expected.jsonl')
 const headlessReasoningExpected = join(goldensDir, 'headless-profile', 'reasoning.stderr.expected.txt')
 const headlessFailureExpected = join(goldensDir, 'headless-profile', 'stderr.expected.txt')
@@ -303,7 +303,7 @@ async function persistedLogs(cwd: string, root: string = join(cwd, '.sessions'))
 
 describe('headless stream-json snapshots', () => {
 
-  it('preserves Auto through shutdown and requires its integration when reopening', async () => {
+  it('preserves Auto through shutdown and restores it from the shipped base row', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'headless-auto-shutdown-'))
     const options = {
       cwd,
@@ -320,7 +320,7 @@ describe('headless stream-json snapshots', () => {
           ...options,
           label: `Auto shutdown wake ${wake}`,
           binArgs: [
-            ...args, '--patch', autoIntegrationPath, '--json',
+            ...args, '--json',
             ...wake === 1 ? ['--permission-mode', 'auto'] : ['--session-id', sessionId],
             'Record this wake without calling tools.',
           ],
@@ -342,34 +342,10 @@ describe('headless stream-json snapshots', () => {
           type: 'final', sessionId, reason: { kind: 'completed' }, text: 'AUTO_SHUTDOWN_OK',
         })
       }
-      const beforeRejectedRestore = (await persistedLogs(cwd, join(cwd, '.dsh', 'sessions')))[0]!.content
-      const unavailable = await runLoaderSmoke({
-        ...options,
-        label: 'Auto restore without its integration',
-        expectedExitCode: 1,
-        binArgs: [...args, '--json', '--session-id', sessionId, '--permission-mode', 'read-only', 'Continue.'],
-      })
-      expect(unavailable.stderr).toContain('cannot restore preset "auto" without its active integration')
-      expect(parseJsonl(unavailable.stdout).some(event => event.type === 'final')).toBe(false)
-      const afterRejectedRestore = (await persistedLogs(cwd, join(cwd, '.dsh', 'sessions')))[0]!.content
-      expect(afterRejectedRestore.startsWith(beforeRejectedRestore)).toBe(true)
-      // Restore records its seed boundary before live publication validates the saved permission.
-      const appended = parseJsonl(afterRejectedRestore.slice(beforeRejectedRestore.length))
-      expect(appended).toHaveLength(1)
-      const { time, ...marker } = appended[0]!
-      expect(typeof time).toBe('number')
-      expect(marker).toEqual({
-        type: 'session/end-seed',
-        seq: parseJsonl(beforeRejectedRestore).length - 1,
-        data: {},
-      })
       await runLoaderSmoke({
         ...options,
-        label: 'Change restored Auto to Read only with its integration',
-        binArgs: [
-          ...args, '--patch', autoIntegrationPath, '--json',
-          '--session-id', sessionId, '--permission-mode', 'read-only', 'Continue.',
-        ],
+        label: 'Change restored Auto to Read only',
+        binArgs: [...args, '--json', '--session-id', sessionId, '--permission-mode', 'read-only', 'Continue.'],
         inspect: async () => {
           const log = (await persistedLogs(cwd, join(cwd, '.dsh', 'sessions')))[0]!
           const restored = parseJsonl(log.content)
@@ -587,11 +563,11 @@ describe('headless stream-json snapshots', () => {
     expect(events.at(-1)).toMatchObject({ type: 'final', reason: { kind: 'completed' } })
   }, LOADER_SMOKE_TEST_TIMEOUT_MS)
 
-  it('rejects Auto selection without the experimental integration', async () => {
+  it('rejects Auto selection when the composition disables the integration', async () => {
     const result = await runLoaderSmoke({
       label: 'headless absent Auto integration', tempDirPrefix: 'headless-auto-absent-',
       binScript: dshBinScript, configPath: headlessOverlayPath,
-      binArgs: ['--profile', 'headless', '--patch', headlessOverlayPath, '--permission-mode', 'auto', '--json', 'Do it.'],
+      binArgs: ['--profile', 'headless', '--patch', headlessOverlayPath, '--patch', autoReviewDisabledPath, '--permission-mode', 'auto', '--json', 'Do it.'],
       tsconfigPath, expectedExitCode: 1, env: { DSH_TELEMETRY_DISABLED: '1' },
     })
     const events = parseJsonl(result.stdout)

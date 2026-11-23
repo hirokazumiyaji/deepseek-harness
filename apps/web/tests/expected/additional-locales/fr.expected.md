@@ -1,5 +1,5 @@
 - listitem:
-  - button "Voir Examen des autorisations automatiques": Examen des autorisations automatiques
-  - text: "Expérimental Ajoute le mode d'accès « Auto review » : avant chaque appel d'outil, un modèle vérifie l'appel par rapport à ce que vous avez demandé ; les appels autorisés s'exécutent immédiatement et les appels refusés attendent votre approbation."
+  - button "Voir Saisie vocale": Saisie vocale
+  - text: Expérimental Transcrivez les enregistrements localement avec SenseVoice ; la première utilisation nécessite l'installation de dépendances.
   - status
-  - switch "Activer Examen des autorisations automatiques"
+  - switch "Activer Saisie vocale"

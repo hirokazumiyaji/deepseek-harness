@@ -1,15 +1,15 @@
 ---
-description: "Package map for the loop-hygiene guard family: the advisory repeat-tool reminder, the per-tool-call timeout policy, and the push confirmation guard, for users and maintainers choosing or composing the guards."
+description: "Package map for the guard family: the model-reviewed Auto permission mode, the advisory repeat-tool reminder, the per-tool-call timeout policy, and the push confirmation guard, for users and maintainers choosing or composing the guards."
 kind: "package-group"
 ---
 
-# guard/ — loop-hygiene guard family
+# guard/ — tool-call guard family
 
 English | [中文](README.zh.md)
 
 ## Summary
 
-The `guard/` group keeps the agent loop productive. `repeat-tool-reminder` notices repeated identical tool calls and reminds the model to change approach or finish. `timeout-policy` bounds tool calls that declare a limit, so a hung call returns a clear error. `git-push-guard` asks the user to confirm a `git push` before the agent runs it, with one default for new Sessions and one switch per Session. The first two ship enabled in the `dsh` base bundle; the push guard ships in the Web bundle. A composition can tune or remove them.
+The `guard/` group keeps the agent loop productive and its tool calls authorized. `auto-review` runs the `auto` permission mode: the same model reviews each supported call before it runs. `repeat-tool-reminder` notices repeated identical calls and nudges the model to change approach. `timeout-policy` bounds calls that declare a limit, and `git-push-guard` asks you to confirm a `git push`. All but the push guard ship in the base bundle.
 
 ## Table of Contents
 
@@ -22,10 +22,11 @@ The `guard/` group keeps the agent loop productive. `repeat-tool-reminder` notic
 <a id="packages"></a>
 ## Packages
 
-Three small plugins cover these behaviors; each README below explains when to keep, tune, or remove it.
+Four small plugins cover these behaviors; each README below explains when to keep, tune, or remove it.
 
 | Package | What it provides |
 |---|---|
+| [`auto-review/`](auto-review/README.md) | Runs the `auto` permission mode: a same-model review replaces approval prompts, and a denial still asks the user |
 | [`repeat-tool-reminder/`](repeat-tool-reminder/README.md) | Reminds the model when it repeats the same tool call, so it changes approach or finishes |
 | [`timeout-policy/`](timeout-policy/README.md) | Times out tool calls that declare a limit, so the model gets a clear error instead of waiting forever |
 | [`git-push-guard/`](git-push-guard/README.md) | Asks the user to confirm a `git push` before the agent runs it, with a default for new Sessions and one switch per Session |

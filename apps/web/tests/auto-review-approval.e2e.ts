@@ -13,7 +13,6 @@ import {
 } from './scaffold.ts'
 import { expandOwningTurnProcess, newEnglishPage, saveFailureShot, WEB_FIXTURE_TIME } from './support.ts'
 
-import { AUTO_REVIEW_FIXTURE } from './auto-review-fixture.ts'
 
 const SNAPSHOT_DIR = fileURLToPath(new URL('../../../snapshots/web/auto-review-approval', import.meta.url))
 const FIXTURE = fileURLToPath(new URL('../../../snapshots/web/auto-review-approval/session.v3.jsonl', import.meta.url))
@@ -30,7 +29,7 @@ describe.skipIf(MODE === 'record')('web e2e: cold Auto-review user rejection and
 
   beforeAll(async () => {
     const fixture = await readFile(FIXTURE, 'utf8')
-    scaffold = await launchWebScaffold(AUTO_REVIEW_FIXTURE)
+    scaffold = await launchWebScaffold()
     await seedSession(scaffold, fixture, SEED_ID, undefined, { createdAt: WEB_FIXTURE_TIME })
     browser = await chromium.launch()
     page = await newEnglishPage(browser)
@@ -63,7 +62,7 @@ describe.skipIf(MODE === 'record')('web e2e: cold Auto-review user rejection and
 
     const access = page.locator('button[aria-label^="Access mode"]').first()
     await expect.poll(() => access.getAttribute('aria-label'), { timeout: 10_000 })
-      .toBe('Access mode, current: Auto review')
+      .toBe('Access mode, current: Auto')
     const collapsed = (await captureStableAria(page, '[class*="centerCol"]', scaffold.workspaceCwd))
       .split(SEED_ID).join('{{seededId}}')
 

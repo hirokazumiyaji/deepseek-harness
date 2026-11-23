@@ -453,6 +453,12 @@ export interface LaunchOptions {
   }
   /** Reuse an existing harness home so a second Host can verify user settings across origins. */
   harnessHome?: string
+  /**
+   * Keep the shipped Auto default for new sessions. Recorded fixtures and the
+   * approval scenarios were authored under workspace-write, so the lane pins
+   * that default unless a scenario explicitly exercises the shipped one.
+   */
+  autoPermissionDefault?: boolean
 }
 
 /** Dispose the booted tree and remove the owned temp roots and overlay file, reporting every independent cleanup failure. */
@@ -594,6 +600,20 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
   const overlayPatches: PatchOptions[] = [
     // Without HMR the profile applies configuration changes at its next start.
     ...options.profile?.hmr === false ? [{ id: 'hmr', disabled: true }] : [],
+    // The recorded fixtures and approval scenarios assume new sessions start
+    // in workspace-write. `autoPermissionDefault` opts a scenario into the
+    // shipped Web default instead; a patch replaces the row's whole config.
+    ...options.autoPermissionDefault === true ? [] : [{
+      id: 'permission',
+      config: {
+        defaultPreset: 'workspace-write',
+        presets: {
+          'read-only': { sandbox: 'read-only', approval: 'ask' },
+          'workspace-write': { sandbox: 'workspace-write', approval: 'ask' },
+          'danger-full-access': { sandbox: 'danger-full-access', approval: 'never' },
+        },
+      },
+    }],
     { id: 'session-log-deepseek', config: { enabled: false } },
     { id: 'ui-plugin-manager', config: { registryProbeEnabled: false } },
     ...mode === 'record' || options.deepSeekMissingCredential === true

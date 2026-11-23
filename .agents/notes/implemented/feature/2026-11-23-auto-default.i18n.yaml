@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for 2026-11-23-auto-default.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-11-23-auto-default.md
+/agent-note-auto-as-the-web-and-tui-new-session-default:
+  en: 9b1e9cde652c86c9
+  zh: 93898ef160848fbc
+/agent-note-auto-as-the-web-and-tui-new-session-default/problem:
+  en: d8d53f91cc28ee83
+  zh: 0bed41f06d1525e3
+/agent-note-auto-as-the-web-and-tui-new-session-default/decision:
+  en: 466f25e19668dd3c
+  zh: b4ee444578a420f8
+/agent-note-auto-as-the-web-and-tui-new-session-default/alternatives-considered:
+  en: d6037bbbf8bfed98
+  zh: ac1429b8accb6b03
+/agent-note-auto-as-the-web-and-tui-new-session-default/consequences:
+  en: 538cd78f23877133
+  zh: ba65e16cbdd22ed3
+/agent-note-auto-as-the-web-and-tui-new-session-default/testing:
+  en: cca4c4cca71ff42a
+  zh: 76a0486c0b539094

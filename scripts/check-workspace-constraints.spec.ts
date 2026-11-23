@@ -442,7 +442,7 @@ describe('package payload constraints', () => {
     })).toEqual(['lib/index.js', 'lib/types/**/*.d.ts', 'lib/types/**/*.d.ts.map', 'lib/**/*.js.map', 'src'])
   })
 
-  it.each(['team/agent-team', 'experimental/voice-input-bundle', 'experimental/auto-review', 'client/ui-agent-team', 'team/tool-agent-team'])(
+  it.each(['team/agent-team', 'experimental/voice-input-bundle', 'client/ui-agent-team', 'team/tool-agent-team'])(
     'accepts the published locale files for %s and rejects their omission', (name) => {
       const dir = `packages/${name}`
       const manifest = JSON.parse(readFileSync(new URL(`../${dir}/package.json`, import.meta.url), 'utf8')) as WorkspaceManifest['manifest']
@@ -460,7 +460,7 @@ describe('package payload constraints', () => {
   })
 
   it('rejects locale publication entries without their resource exports', () => {
-    const dir = 'packages/experimental/auto-review'
+    const dir = 'packages/team/agent-team'
     const manifest = JSON.parse(readFileSync(new URL(`../${dir}/package.json`, import.meta.url), 'utf8')) as WorkspaceManifest['manifest']
     const exports = { ...manifest.exports }
     delete exports['./locale/*.json']

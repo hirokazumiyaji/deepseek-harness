@@ -10,7 +10,7 @@ Headless, SDK, and ACP admit tasks with `source.kind: 'user'`. Auto must recogni
 
 ## Decision
 
-The [experimental Auto layer](../../../../packages/experimental/auto-review/README.md#headless-supervision) supports explicit headless selection. Default profiles remain unchanged. This extends the Web-only scope of [per-tool Auto review](2026-08-28-auto-review.md); its risk classes, full-access execution, PTC exclusions, and lifecycle remain authoritative.
+The [Auto integration](../../../../packages/guard/auto-review/README.md#selecting-auto) supports explicit headless selection in every base-backed profile, because `dsh-base` mounts it. This extends the original Web-only scope of [per-tool Auto review](2026-08-28-auto-review.md); [the promotion decision](2026-11-21-auto-mode-product.md) owns the shipped package role, and its risk classes, full-access execution, PTC exclusions, and lifecycle remain authoritative.
 
 The reviewer assigns user-sourced text the `user-instruction` role, including existing history and tasks admitted before Auto was selected. The user may be a human or a supervising caller. Both can define the task and authorize an exact medium-risk action, target, and scope. The current child's creation prompt and direct-parent messages keep their subordinate role; inherited and unverified creation prompts remain facts. Files, constraints, checkpoints, images, and tool results do not acquire instruction authority. Input producers own the source attribution; task text never selects its source. The message types and persisted fields remain unchanged.
 

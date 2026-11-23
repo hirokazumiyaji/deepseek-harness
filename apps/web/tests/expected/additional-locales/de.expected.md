@@ -1,5 +1,5 @@
 - listitem:
-  - button "Siehe Automatische Autorisierungsüberprüfung": Automatische Autorisierungsüberprüfung
-  - text: "Experimentell Fügt den Zugriffsmodus „Auto review“ hinzu: Vor jedem Tool-Aufruf prüft ein Modell den Aufruf anhand Ihrer Anforderung; zugelassene Aufrufe laufen sofort, abgelehnte Aufrufe warten auf Ihre Genehmigung."
+  - button "Siehe Spracheingabe": Spracheingabe
+  - text: Experimentell Transkribieren Sie Aufnahmen lokal mit SenseVoice; Für die erste Verwendung müssen Abhängigkeiten installiert werden.
   - status
-  - switch "Aktivieren Sie Automatische Autorisierungsüberprüfung"
+  - switch "Aktivieren Sie Spracheingabe"

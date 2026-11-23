@@ -1,0 +1,76 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/tui/tui/README.md
+/:
+  en: 1075ac80f0e77d9d
+  zh: 2df8f069bdae39f9
+/deepseek-ai-dsh-tui:
+  en: 2212eca37e67f797
+  zh: 81d1b93f3b6ed088
+/deepseek-ai-dsh-tui/summary:
+  en: 337126c533ba187f
+  zh: 28a489b9ce3b4de5
+/deepseek-ai-dsh-tui/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 014e89b1e3f7a6f1
+/deepseek-ai-dsh-tui/use-this-package:
+  en: d1597420c348ffb8
+  zh: 71dd13eca66d6480
+/deepseek-ai-dsh-tui/use-this-package/keys-and-commands:
+  en: a6d23f2981406708
+  zh: a86ae121b57618b3
+/deepseek-ai-dsh-tui/use-this-package/verify-it:
+  en: 2bcc418d8f61738d
+  zh: f7448444cd566b12
+/deepseek-ai-dsh-tui/understand-the-implementation:
+  en: 42b15ac6321706aa
+  zh: e5fca241cd9a628d
+/deepseek-ai-dsh-tui/understand-the-implementation/source-map:
+  en: 4feef1e5c3baefba
+  zh: ae571f829dee30ff
+/deepseek-ai-dsh-tui/understand-the-implementation/startup:
+  en: f0699d760d518708
+  zh: ad61be0f271d172f
+/deepseek-ai-dsh-tui/understand-the-implementation/rendering:
+  en: 7066bfc7c2aac808
+  zh: 093e96f7b1880835
+/deepseek-ai-dsh-tui/understand-the-implementation/interaction-and-teardown:
+  en: dc1248ab046b8a8d
+  zh: 43c6d79f32eaac75
+/deepseek-ai-dsh-tui/further-exploration:
+  en: a026630e735e3384
+  zh: c758cc2394079083
+/deepseek-ai-dsh-tui/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-tui/model-experience/composer-input:
+  en: abea80a49e69ace8
+  zh: 7f4b8faf87e49971
+/deepseek-ai-dsh-tui/model-experience/composer-input/what-the-model-sees:
+  en: 67a4c5dff3c78117
+  zh: 506be81c6d2a3c29
+/deepseek-ai-dsh-tui/model-experience/composer-input/token-effect:
+  en: ab1be37139701ffd
+  zh: 7d656f73c5519326
+/deepseek-ai-dsh-tui/model-experience/composer-input/kv-cache-effect:
+  en: 0a18c901a29f06f0
+  zh: 333005fcf4fc32f6
+/deepseek-ai-dsh-tui/model-experience/approvals-and-questions:
+  en: d9723b641b2f54d5
+  zh: ef4801b0b728a961
+/deepseek-ai-dsh-tui/model-experience/approvals-and-questions/what-the-model-sees:
+  en: aafb11a32922ea85
+  zh: d2091443c7e45c90
+/deepseek-ai-dsh-tui/model-experience/approvals-and-questions/token-effect:
+  en: 60d6f57812635a4c
+  zh: 740bff21ef0d2397
+/deepseek-ai-dsh-tui/model-experience/approvals-and-questions/kv-cache-effect:
+  en: 3241295f9591f589
+  zh: a398842795a0dfd6
+/deepseek-ai-dsh-tui/known-limitations-and-deferred-work:
+  en: f17a69639f93515a
+  zh: d7e63fe12d8c1154
+/deepseek-ai-dsh-tui/known-limitations-and-deferred-work/dev-note:
+  en: 8869c55f19f12dc7
+  zh: d3b036235625f7ae

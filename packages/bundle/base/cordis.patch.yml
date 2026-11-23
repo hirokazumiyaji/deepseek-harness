@@ -248,8 +248,10 @@
       name: '@deepseek-ai/dsh-cli-account'
 
     # Every shipped CLI mode starts with the same file-effect boundary.
-    # The environment remains an explicit deployment override; otherwise fresh
-    # sessions pin workspace-write + ask through the permission service below.
+    # The environment remains an explicit deployment override; otherwise base
+    # compositions pin workspace-write + ask through the permission service
+    # below. The Web and TUI bundles replace the permission row to start new
+    # interactive sessions in Auto.
     - id: sandbox
       name: '@deepseek-ai/dsh-sandbox-local'
 
@@ -276,6 +278,9 @@
 
     - id: permission
       name: '@deepseek-ai/dsh-permission-presets'
+      # The Web and TUI bundles replace this config to default new interactive
+      # sessions to Auto; base-only compositions keep the workspace-write
+      # default below.
       config:
         presets:
           read-only:
@@ -287,6 +292,11 @@
           danger-full-access:
             sandbox: danger-full-access
             approval: never
+
+    # The Auto mode's per-call reviewer. It contributes the current-session
+    # `auto` preset; selecting another preset leaves it idle.
+    - id: auto-review
+      name: '@deepseek-ai/dsh-auto-review'
 
     - id: shell-env
       name: '@deepseek-ai/dsh-shell-env'

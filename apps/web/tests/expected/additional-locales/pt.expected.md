@@ -1,5 +1,5 @@
 - listitem:
-  - button "Ver Revisão de autorização automática": Revisão de autorização automática
-  - text: "Experimental Adiciona o modo de acesso “Auto review”: antes de cada chamada de ferramenta, um modelo verifica a chamada em relação ao que você pediu; as chamadas permitidas são executadas imediatamente e as negadas aguardam sua aprovação."
+  - button "Ver Entrada de voz": Entrada de voz
+  - text: Experimental Transcreva gravações localmente com SenseVoice; o primeiro uso requer a instalação de dependências.
   - status
-  - switch "Ativar Revisão de autorização automática"
+  - switch "Ativar Entrada de voz"

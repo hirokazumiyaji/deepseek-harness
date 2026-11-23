@@ -2,7 +2,7 @@
 
 English | [中文](permission-presets.zh.md)
 
-The permission-preset layer of [dsh-permission-presets](../../packages/interaction/permission-presets) (`ctx.permissionPresets`, `PermissionPresetService`) bundles the two independent enforcement knobs — [sandbox mode](sandbox.md) (`sandbox/mode`) and [approval policy](approval.md) (`approval/policy`) — into named presets a client offers as one Permissions selector. The configured table owns future-session defaults, while the fixed `registerAuto(admit)` hook lets the [Auto review](../../packages/experimental/auto-review/README.md) integration publish its current-session-only option for one effect lifetime. The layer is optional and owns no execution policy: prompt narration and replay keep reading their knob folds, while Auto review owns the additional enforcement. The [package README](../../packages/interaction/permission-presets/README.md) owns composition status and limitations; the [historical sandbox switching design](../../.agents/notes/archived/feature/2026-07-06-sandbox.md) records the original knob rationale.
+The permission-preset layer of [dsh-permission-presets](../../packages/interaction/permission-presets) (`ctx.permissionPresets`, `PermissionPresetService`) bundles the two independent enforcement knobs — [sandbox mode](sandbox.md) (`sandbox/mode`) and [approval policy](approval.md) (`approval/policy`) — into named presets a client offers as one Permissions selector. The configured table owns future-session defaults, and the fixed `registerAuto(admit)` hook lets the [Auto review](../../packages/guard/auto-review/README.md) integration that `dsh-base` mounts publish an option that is also eligible as a default while it is live. The layer is optional and owns no execution policy: prompt narration and replay keep reading their knob folds, while Auto review owns the additional enforcement. The [package README](../../packages/interaction/permission-presets/README.md) owns composition status and limitations; the [historical sandbox switching design](../../.agents/notes/archived/feature/2026-07-06-sandbox.md) records the original knob rationale.
 
 Source: [`packages/interaction/permission-presets/src/index.ts`](../../packages/interaction/permission-presets/src/index.ts)
 
@@ -36,7 +36,10 @@ interface Config {
   presets: Record<string, PresetSpec>
   /**
    * Default for new sessions. When omitted, the preset matching the composed
-   * sandbox and approval defaults is used.
+   * sandbox and approval defaults is used. The reserved name `auto` is
+   * accepted once the Auto review integration is live; a composition that
+   * configures it without that integration fails when a session first
+   * resolves the default.
    */
   defaultPreset: Volatile<string | undefined>
 }
@@ -46,7 +49,7 @@ The service requires a confining `ctx.shell` executor and `ctx.approval`, and mi
 
 ## Fixed current-session Auto registration
 
-The Auto integration calls `registerAuto(admit)` for its effect lifetime. This service fixes the `auto` identity and its `danger-full-access` plus `ask` bundle, and a recorded Auto selection also matches the `never` policy that delegated children pin; the shipped client locale dictionaries own Auto's label and description, while configured preset presentation remains Host-owned. Callers cannot publish another preset through a generic contribution API. Auto appears after configured presets, never enters the `permission.defaultPreset` settings schema, and disappears when the effect is disposed. The synchronous `admit` callback runs before Auto selection mutates the Session and before a stored Auto Session publishes, so a missing or closing integration does not rewrite the durable identity.
+The Auto integration that every base-backed profile mounts calls `registerAuto(admit)` for its effect lifetime. This service fixes the `auto` identity and its `danger-full-access` plus `ask` bundle, and a recorded Auto selection also matches the `never` policy that delegated children pin; the shipped client locale dictionaries own Auto's label and description, while configured preset presentation remains Host-owned. Callers cannot publish another preset through a generic contribution API. Auto appears after configured presets, is eligible as `defaultPreset` while the integration is live, and disappears when the effect is disposed; a default that still names Auto then fails new-session creation. The synchronous `admit` callback runs before Auto selection mutates the Session, before a fresh Auto default writes its events, and before a stored Auto Session publishes, so a missing or closing integration does not rewrite the durable identity.
 
 Registering or removing Auto emits the payload-free `permission-presets/catalog-changed` notification. Process consumers subscribe before calling `catalog()`, then re-read the complete selectable catalog after each notification. The `permissions` Session projection contains only `currentValue`, so catalog changes append no Session event, publish no Session projection frame, and leave the Session sequence unchanged.
 
@@ -54,7 +57,7 @@ Registering or removing Auto emits the payload-free `permission-presets/catalog-
 
 `current(session)` derives the effective preset from the required `permissions` projection. The unit folds the session's sandbox mode, approval policy, and recorded selection; values absent within that state fall back to the executor's configured mode and the approval service config, then `ask`. A missing projection key fails explicitly. The service prefers a still-matching selection, including a recorded Auto selection under the `never` approval policy, then the first matching configured entry, and otherwise returns `CUSTOM_PRESET` (`'custom'`). `custom` is derived-only: clients may display it as the current value, but it is never a switch target or an event payload.
 
-`names` lists configured presets in declaration order followed by Auto while its integration is live. `catalog()` returns those selectable entries as one process-level snapshot. `optionOf(name)` builds an available entry (its label falls back to the key) or the derived `custom` presentation, and throws for any other name. Clients join the catalog with the Session projection; `custom` may label the current value but never becomes a catalog entry.
+`names` lists configured presets in declaration order followed by Auto while its integration is live. `catalog()` returns those selectable entries as one process-level snapshot, and its `defaultOptions` contain the same entries. `optionOf(name)` builds an available entry (its label falls back to the key) or the derived `custom` presentation, and throws for any other name. Clients join the catalog with the Session projection; `custom` may label the current value but never becomes a catalog entry.
 
 ```ts type-equiv
 /** Presentation for an available preset or the derived `custom` current value. */

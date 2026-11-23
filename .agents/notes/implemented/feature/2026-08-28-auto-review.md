@@ -1,4 +1,4 @@
-# Agent Note: Experimental Auto review before each tool call
+# Agent Note: Auto review before each tool call
 
 Status: implemented
 
@@ -10,7 +10,7 @@ Full access lets useful project work proceed without repeated approvals, but it 
 
 ## Decision
 
-[`dsh-experimental-auto-review`](../../../../packages/experimental/auto-review/README.md) is an explicitly installed experimental profile layer, published under the [experimental package publication policy](../../../../packages/experimental/README.md). Default Web retains Read Only, Workspace Write, and Full access. The layer contributes current-session `auto`, whose only durable identity is `permission/preset:auto`; it uses Full access's `danger-full-access` sandbox and tool definitions with the approval policy chosen by [the user-approval fallback decision](2026-09-24-auto-review-user-approval-fallback.md). Default Headless, General settings, and new-session defaults exclude the integration. [Headless caller admission](2026-10-18-headless-auto-review.md) defines explicit headless opt-in and transport-independent user-source authority.
+[`dsh-auto-review`](../../../../packages/guard/auto-review/README.md) is a product package that `dsh-base` mounts, so every base-backed profile offers the `auto` preset; [the promotion decision](2026-11-21-auto-mode-product.md) owns the package role, the surface entry points, and the retired bundle name. It contributes current-session `auto`, whose only durable identity is `permission/preset:auto`; it uses Full access's `danger-full-access` sandbox and tool definitions with the approval policy chosen by [the user-approval fallback decision](2026-09-24-auto-review-user-approval-fallback.md). General settings and new-session defaults do not select Auto. [Headless caller admission](2026-10-18-headless-auto-review.md) defines explicit headless selection and transport-independent user-source authority.
 
 Every native call and started PTC `tools.*` inner call receives one review before its body. The outer `run_code` transport and direct Node effects in a PTC program remain outside this guarantee. There are no tool-name exemptions, cached grants, retries, configurable policy, or second authorization check; [the user-approval fallback decision](2026-09-24-auto-review-user-approval-fallback.md) owns what follows a denial. A repeated call receives a fresh review.
 

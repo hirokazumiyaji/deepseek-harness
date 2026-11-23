@@ -372,6 +372,74 @@ describe('new-session default', () => {
     ])
   })
 
+  it('offers Auto as a default option only while its integration is live', async () => {
+    const ctx = await mounted()
+    expect(ctx.permissionPresets.catalog().defaultOptions.map(option => option.value))
+      .toEqual(['workspace-write', 'danger-full-access'])
+    await mountAuto(ctx)
+    expect(ctx.permissionPresets.catalog().defaultOptions.map(option => option.value))
+      .toEqual(['workspace-write', 'danger-full-access', AUTO_PRESET])
+  })
+
+  it('accepts Auto as the configured default once its integration is live and admits each fresh session', async () => {
+    const ctx = await mounted({ config: { defaultPreset: AUTO_PRESET } })
+    expect(() => ctx.permissionPresets.defaultPreset)
+      .toThrow(/default preset "auto" requires the live Auto review integration/)
+    expect(() => ctx.permissionPresets.catalog().defaultPreset)
+      .toThrow(/default preset "auto" requires the live Auto review integration/)
+
+    let admissions = 0
+    const fiber = await mountAuto(ctx, () => { admissions += 1 })
+    expect(ctx.permissionPresets.defaultPreset).toBe(AUTO_PRESET)
+    const catalog = ctx.permissionPresets.catalog()
+    expect(catalog.defaultPreset).toBe(AUTO_PRESET)
+    expect(catalog.defaultOptions.map(option => option.value))
+      .toEqual(['workspace-write', 'danger-full-access', AUTO_PRESET])
+
+    const session = (await ctx.agents.create({ sessionId: brandString<SessionId>('auto-default') })).agent.session
+    expect(admissions).toBe(1)
+    expect(session.snapshotEvents().map(event => [event.type, event.data])).toEqual([
+      ['permission/preset', { preset: AUTO_PRESET }],
+      ['sandbox/mode', { mode: 'danger-full-access' }],
+      ['approval/policy', { policy: 'ask' }],
+    ])
+    expect(ctx.permissionPresets.current(session)).toBe(AUTO_PRESET)
+
+    await fiber.dispose()
+    expect(() => ctx.permissionPresets.defaultPreset)
+      .toThrow(/default preset "auto" requires the live Auto review integration/)
+  })
+
+  it('refuses a fresh session when the Auto default has no live integration', async () => {
+    const ctx = await mounted({ config: { defaultPreset: AUTO_PRESET } })
+    const id = brandString<SessionId>('auto-default-missing')
+    await expect(ctx.agents.create({ sessionId: id }))
+      .rejects.toThrow(/default preset "auto" requires the live Auto review integration/)
+    expect(ctx.sessions.get(id)).toBeUndefined()
+  })
+
+  it('persists Auto as the settings default and pins later sessions to it', async () => {
+    const ctx = await mountedStore()
+    await mountAuto(ctx)
+    await configurations.get(ctx)!.update({ defaultPreset: AUTO_PRESET })
+    expect(ctx.permissionPresets.defaultPreset).toBe(AUTO_PRESET)
+    const session = (await ctx.agents.create({ sessionId: brandString<SessionId>('settings-auto') })).agent.session
+    expect(session.snapshotEvents().map(event => [event.type, event.data])).toEqual([
+      ['permission/preset', { preset: AUTO_PRESET }],
+      ['sandbox/mode', { mode: 'danger-full-access' }],
+      ['approval/policy', { policy: 'ask' }],
+    ])
+  })
+
+  it('refuses a settings Auto default while the integration is absent', async () => {
+    const ctx = await mountedStore()
+    await configurations.get(ctx)!.update({ defaultPreset: AUTO_PRESET })
+    expect(() => ctx.permissionPresets.defaultPreset)
+      .toThrow(/default preset "auto" requires the live Auto review integration/)
+    await expect(ctx.agents.create({ sessionId: brandString<SessionId>('settings-auto-missing') }))
+      .rejects.toThrow(/default preset "auto" requires the live Auto review integration/)
+  })
+
   it('preserves composition defaults when an empty stored session resumes', async () => {
     const ctx = await mountedStore()
     await configurations.get(ctx)!.update({
@@ -465,7 +533,7 @@ describe('new-session default', () => {
   it('fails to read a stored default outside the configured preset table until it is repaired', async () => {
     const ctx = await mountedStore()
     await mountAuto(ctx)
-    await configurations.get(ctx)!.update({ defaultPreset: AUTO_PRESET })
+    await configurations.get(ctx)!.update({ defaultPreset: 'plan' })
     expect(() => ctx.permissionPresets.defaultPreset).toThrow(/unknown default preset/)
     await configurations.get(ctx)!.update({ defaultPreset: 'workspace-write' })
     expect(ctx.permissionPresets.defaultPreset).toBe('workspace-write')

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Terminal-Profil",
+    "description": "Öffnet die interaktive Terminal-Oberfläche über dsh-base: gestreamte Antworten, Werkzeugkarten, Freigaben, Fragen und Slash-Befehle, ohne Host-, HTTP- oder Browser-Schicht."
+  }
+}

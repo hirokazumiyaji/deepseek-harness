@@ -26,7 +26,6 @@ import type {} from '@deepseek-ai/dsh-commands'
 import type {} from '@deepseek-ai/dsh-system-prompt'
 import type {} from '@deepseek-ai/dsh-terminal'
 import { launchWebScaffold, readPersistedEvents, type WebScaffold } from './scaffold.ts'
-import { AUTO_REVIEW_FIXTURE } from './auto-review-fixture.ts'
 import { REPO_ROOT } from './support.ts'
 
 const FILE_REFERENCE_PROMPT = fileURLToPath(new URL(
@@ -528,7 +527,7 @@ afterEach(async () => {
 })
 
 it('assembles the shipped Web transport, catalog, guidance, and defaults', async () => {
-  scaffold = await launchWebScaffold({ deepSeekMissingCredential: true })
+  scaffold = await launchWebScaffold({ deepSeekMissingCredential: true, autoPermissionDefault: true })
   const ctx = scaffold.ctx
   expect(ctx.llm.listProviders().some(provider => provider.id === 'deepseek-messages')).toBe(false)
   expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'deepseek-official', model: 'deepseek-flash' })
@@ -627,17 +626,18 @@ it('assembles the shipped Web transport, catalog, guidance, and defaults', async
   )
   expect(scaffold.ctx.sandboxPolicy.defaultMode).toBe('workspace-write')
   expect(scaffold.ctx.approval.config.policy).toBe('ask')
-  expect(scaffold.ctx.permissionPresets.defaultPreset).toBe('workspace-write')
+  expect(scaffold.ctx.permissionPresets.defaultPreset).toBe('auto')
   expect(scaffold.ctx.permissionPresets.names).toEqual([
     'read-only',
     'workspace-write',
     'danger-full-access',
+    'auto',
   ])
   const headlessRows = composeEntries([
     loadOverlayPatches('shipped headless composition', BASE_PATCH_PATH),
     loadOverlayPatches('shipped headless composition', HEADLESS_PATCH_PATH),
   ])
-  expect(headlessRows.some(row => row.id === 'auto-review')).toBe(false)
+  expect(headlessRows.some(row => row.id === 'auto-review')).toBe(true)
 
   const commandHandle = await scaffold.ctx.agents.create({
     sessionId: brandString<SessionId>('shipped-command-catalog'),
@@ -739,7 +739,7 @@ it('lets a preset producer reach the background-job registry', async () => {
 }, 120_000)
 
 it('routes one browser-authored Auto request through the same model and asks the user after a denial', async () => {
-  scaffold = await launchWebScaffold(AUTO_REVIEW_FIXTURE)
+  scaffold = await launchWebScaffold()
   const ctx = scaffold.ctx
   const targetPath = join(scaffold.workspaceCwd, 'auto-review-pre-existing.txt')
   await writeFile(targetPath, 'PRE_EXISTING_MUST_REMAIN\n')
@@ -833,7 +833,7 @@ it('routes one browser-authored Auto request through the same model and asks the
 }, 120_000)
 
 it('reviews initially authorized, restricted, and cold-resumed child calls independently', async () => {
-  scaffold = await launchWebScaffold(AUTO_REVIEW_FIXTURE)
+  scaffold = await launchWebScaffold()
   const ctx = scaffold.ctx
   const sourcePath = join(scaffold.workspaceCwd, 'auto-child-source.txt')
   const authorizedDeletePath = join(scaffold.workspaceCwd, 'auto-child-one-shot.txt')
@@ -1010,7 +1010,7 @@ it('reviews initially authorized, restricted, and cold-resumed child calls indep
 }, 120_000)
 
 it('rolls back a failed shipped Auto initialization before publishing or intercepting tools', async () => {
-  scaffold = await launchWebScaffold(AUTO_REVIEW_FIXTURE)
+  scaffold = await launchWebScaffold()
   const ctx = scaffold.ctx
   const autoEntry = [...ctx.loader.entries()].find(entry => entry.options.id === 'auto-review')
   if (autoEntry === undefined) throw new Error('shipped Auto review Loader entry is missing')
@@ -1069,7 +1069,7 @@ it('rolls back a failed shipped Auto initialization before publishing or interce
 }, 120_000)
 
 it('withdraws Auto on shipped Loader unload and does not restore migrated live sessions', async () => {
-  scaffold = await launchWebScaffold(AUTO_REVIEW_FIXTURE)
+  scaffold = await launchWebScaffold()
   const ctx = scaffold.ctx
   const autoEntry = [...ctx.loader.entries()].find(entry => entry.options.id === 'auto-review')
   if (autoEntry === undefined) throw new Error('shipped Auto review Loader entry is missing')

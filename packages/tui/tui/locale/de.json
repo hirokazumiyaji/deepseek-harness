@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Terminal-Oberfläche",
+    "description": "Führt einen interaktiven Agent im Terminal aus: gestreamte Antworten, Werkzeugkarten, Freigaben, Fragen, Slash-Befehle und Fortsetzen."
+  }
+}

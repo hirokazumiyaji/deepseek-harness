@@ -20,6 +20,7 @@ export const GROUPS_WITHOUT_SUBSYSTEM_PAGE: Readonly<Record<string, string>> = {
   sdk: 'Out-of-process protocol and client packages whose package READMEs own the SDK contracts.',
   'test-support': 'Repository test harnesses; docs/testing.md owns the testing policy they serve.',
   util: 'Low-level primitives whose business semantics remain with their consuming subsystems.',
+  tui: 'Application front door whose surface contract lives in the package README; docs/architecture.md#application-launch owns how a profile starts it.',
 }
 
 /** Result of auditing package-group subsystem documentation. */

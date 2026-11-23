@@ -1,0 +1,8 @@
+version: 1
+scenario: composed-boot
+profile: tui
+composition: tui
+recording: authored
+header:
+  class: composed
+  pin: true

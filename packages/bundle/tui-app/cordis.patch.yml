@@ -1,0 +1,67 @@
+# The dsh-tui-app bundle patch: the interactive terminal surface over dsh-base.
+# It mounts no Host, HTTP server, or browser plugin. The startup row injects
+# `cmdlineArgs` and provides `tuiStartup`; the surface row injects that service,
+# so Loader resolves its config only after the parse succeeds and
+# `dsh --profile tui --help` exits without opening the terminal.
+#
+# The base keeps the agent plane (tools, prompt sections, delegation backends)
+# in the host scope, which is exactly what this single-agent surface drives.
+
+- id: system-prompt
+  config:
+    personaPrefix: >-
+      You are a coding agent powered by the {{model}} model.
+
+# Interactive terminal sessions start in Auto, matching the Web surface. A
+# patch replaces the row's whole config, so the base preset table is restated;
+# headless, SDK, and ACP keep the base workspace-write default. The base mounts
+# Auto review, so this default always has a live integration in the shipped
+# TUI composition.
+- id: permission
+  config:
+    defaultPreset: auto
+    presets:
+      read-only:
+        sandbox: read-only
+        approval: ask
+      workspace-write:
+        sandbox: workspace-write
+        approval: ask
+      danger-full-access:
+        sandbox: danger-full-access
+        approval: never
+
+- insert:
+    - id: tui-startup
+      name: '@deepseek-ai/dsh-tui/startup'
+
+    # Reads its options from the ordinary tuiStartup provider. The row mounts
+    # after the launcher commits readiness, so a boot failure elsewhere never
+    # leaves the terminal in full-screen mode.
+    - id: tui
+      name: '@deepseek-ai/dsh-tui'
+      inject: [tuiStartup]
+      config:
+        resume: !!js ctx.tuiStartup.resume
+        prompt: !!js ctx.tuiStartup.prompt
+        permissionMode: !!js ctx.tuiStartup.permissionMode
+        approvalPolicy: !!js ctx.tuiStartup.approvalPolicy
+
+    # Asking the user is an agent capability. The base carries the
+    # user-questions service; the Web presets mount their own copy of this
+    # tool, and a preset-less surface must mount it here.
+    - id: tool-ask-user
+      name: '@deepseek-ai/dsh-tool-ask-user'
+
+# Replacing config retains the base defaults while adding the CLI grants.
+- id: sandbox-policy
+  inject: [tuiStartup]
+  config:
+    mode: !!js process.env.DSH_PERMISSION_MODE ?? 'workspace-write'
+    workspaceRoot: !!js process.cwd()
+    additionalWritableRoots: !!js ctx.tuiStartup.additionalWritableRoots
+
+# Reloading the composition under a live full-screen surface would replace the
+# agent and the renderer mid-conversation; restart to change configuration.
+- id: hmr
+  disabled: true

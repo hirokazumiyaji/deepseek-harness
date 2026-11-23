@@ -48,10 +48,6 @@ function permissionLabel(
   return displayPermissionPreset(value, name, key => t(key))
 }
 
-function optionBadge(value: string, t: PermissionSelectProps['t']): string | undefined {
-  return value === AUTO_REVIEW ? t('auto.badge') : undefined
-}
-
 /** Resolve locale-owned copy for the shipped Auto option; preserve host copy for other presets. */
 function optionDescription(
   option: PresetOption,
@@ -107,17 +103,9 @@ export function PermissionSelect({
   const items: MenuEntry[] = catalog.options.map((option) => {
     const icon = permissionGlyph(option.value, 'menu')
     const label = permissionLabel(option.value, option.name, t)
-    const badge = optionBadge(option.value, t)
     return {
       id: option.value,
-      label: badge === undefined
-        ? label
-        : (
-          <span className={css.optionLabel} aria-label={`${label} ${badge}`}>
-            <span className={css.optionLabelText}>{label}</span>
-            <span className={css.badge}>{badge}</span>
-          </span>
-        ),
+      label,
       ...icon === undefined ? {} : { icon },
     }
   })

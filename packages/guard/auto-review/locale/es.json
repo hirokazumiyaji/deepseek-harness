@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Modo automático",
+    "description": "Ejecute sin zona de pruebas de archivos después de que el mismo modelo revise cada llamada a herramienta; una llamada denegada aún le pregunta."
+  }
+}

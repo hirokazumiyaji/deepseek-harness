@@ -41,10 +41,10 @@
   "packages/client/connection/tests/node-half.host.spec.ts": {
     "3755d2978651498c26c74bf7d3552cae5dd33d7f28e3c405cd282098e40a7c58": 2
   },
-  "packages/experimental/auto-review/src/index.ts": {
+  "packages/guard/auto-review/src/index.ts": {
     "3755d2978651498c26c74bf7d3552cae5dd33d7f28e3c405cd282098e40a7c58": 1
   },
-  "packages/experimental/auto-review/tests/auto-review.spec.ts": {
+  "packages/guard/auto-review/tests/auto-review.spec.ts": {
     "3755d2978651498c26c74bf7d3552cae5dd33d7f28e3c405cd282098e40a7c58": 2
   },
   "packages/experimental/inspector/src/shared/cordis/observer.ts": {

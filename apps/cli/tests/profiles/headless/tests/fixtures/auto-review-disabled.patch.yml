@@ -1,0 +1,3 @@
+# A composition that removes the base Auto integration, to pin the missing-integration failure.
+- id: auto-review
+  disabled: true

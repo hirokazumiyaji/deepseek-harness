@@ -9,7 +9,7 @@ kind: "package-reference"
 
 ## 概述
 
-提供具名权限模式，同时设置沙箱与审批，但各执行服务仍保留自己的值。配置预设提供未来会话默认值；显式加载的 Auto review integration 可以增加一个仅限当前会话的选项。客户端从进程目录读取可选项，从 Session 投影读取当前选择。不匹配任何预设的旋钮组合显示为 `custom`，用户可以离开该状态，但不能选择它。本包拥有选择与默认值；沙箱、审批和 Auto integration 拥有执行行为。
+提供具名权限模式，同时设置沙箱与审批，但各执行服务仍保留自己的值。配置预设提供未来会话默认值，live 的 Auto review integration 还提供一个同样可作为默认值选中的选项。客户端从进程目录读取可选项，从 Session 投影读取当前选择。不匹配任何预设的旋钮组合显示为 `custom`，用户可以离开该状态，但不能选择它。本包拥有选择与默认值；沙箱、审批和 Auto integration 拥有执行行为。
 
 ## 目录
 
@@ -47,9 +47,9 @@ kind: "package-reference"
 | 字段 | 默认值 | 含义 |
 |---|---|---|
 | `presets` | `workspace-write`、`danger-full-access` | 预设名称 → 沙箱／审批捆绑的表 |
-| `defaultPreset` | 推断 | 固定到新会话的预设；组合默认值不匹配任何预设时必填 |
+| `defaultPreset` | 推断 | 固定到新会话的预设；组合默认值不匹配任何预设时必填。接受已配置名称，或在 integration 存活时接受 `auto` |
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-permission-presets)是每个受支持字段及其 JSDoc 的穷尽式真源。`custom` 保留给推导出的非预设状态，`auto` 则保留给 Auto review integration。挂载需要具有约束能力的 bash 执行器（会报告 `sandboxMode` 的执行器）、审批服务和 Agent 注册表。
+生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-permission-presets)是每个受支持字段及其 JSDoc 的穷尽式真源。`custom` 保留给推导出的非预设状态，`auto` 则保留给 Auto review integration。该 integration 存活后，保留名称 `auto` 可作为 `defaultPreset`；没有该 integration 的组合会在第一个会话解析默认值时失败。挂载需要具有约束能力的 bash 执行器（会报告 `sandboxMode` 的执行器）、审批服务和 Agent 注册表。
 
 ### 切换预设
 
@@ -61,7 +61,7 @@ kind: "package-reference"
 
 ### 会话默认值
 
-`permission` 设置命名空间为未来会话持有 `defaultPreset`，且只接受配置预设。创建 Agent 时读取它，将其应用于 Session 的沙箱模式与审批策略，并把应用的预设记录为一次 `permission/preset` 选择。之后的设置变更绝不会改变现有会话。恢复的 seed（包括由 `session/end-seed` 明确标记的空 seed）会保留其有效权限，并只接收缺失的持久事实，而不会接收最新用户默认值；持久化的 `auto` 身份在发布前必须存在 live Auto 注册并通过准入。
+`permission` 设置命名空间为未来会话持有 `defaultPreset`，接受已配置预设；integration 存活时也接受 `auto`。创建 Agent 时读取它，将其应用于 Session 的沙箱模式与审批策略，并把应用的预设记录为一次 `permission/preset` 选择；新的 Auto 默认值会在写入这些事件之前运行 integration 的准入检查。没有 live integration 时，第一个新会话会以 `permission: default preset "auto" requires the live Auto review integration` 失败。之后的设置变更绝不会改变现有会话。恢复的 seed（包括由 `session/end-seed` 明确标记的空 seed）会保留其有效权限，并只接收缺失的持久事实，而不会接收最新用户默认值；持久化的 `auto` 身份在发布前必须存在 live Auto 注册并通过准入。
 
 -----
 
@@ -92,11 +92,11 @@ kind: "package-reference"
 
 ### 会话固定与空白复用
 
-挂载时会固定所有存活与未来 Agent 的 Session：真正全新的会话获得配置默认预设与两个旋钮事实，而 seed 会话或部分初始化的会话保留其有效旋钮值，只补充缺失的持久事实。投影自有的 seed 标记让该判断与旋钮值共用同一份增量状态。服务在投影注册开始前安装 `agent/created` 监听器，因此激活期间的创建会失败，而不会跳过权限固定。`prepend: true` 使权限固定先于普通创建观察者执行，后者可以读取已记录的权限事实。后来使用 `prepend` 的监听器可能更早执行，不能假定权限已固定。读取句柄尚未就绪时，Agent 创建回滚；调用方必须等待插件激活完成后再创建或恢复 Agent。只创建 Session 而不创建 Agent 时，不会初始化权限。存储的 `auto` 身份在 Auto integration 缺失或拒绝准入时无法发布；服务既不会改写它，也不会静默推导为 Full access。
+挂载时会固定所有存活与未来 Agent 的 Session：真正全新的会话获得配置默认预设（默认值为 Auto 时先通过其准入检查）与两个旋钮事实，而 seed 会话或部分初始化的会话保留其有效旋钮值，只补充缺失的持久事实。投影自有的 seed 标记让该判断与旋钮值共用同一份增量状态。服务在投影注册开始前安装 `agent/created` 监听器，因此激活期间的创建会失败，而不会跳过权限固定。`prepend: true` 使权限固定先于普通创建观察者执行，后者可以读取已记录的权限事实。后来使用 `prepend` 的监听器可能更早执行，不能假定权限已固定。读取句柄尚未就绪时，Agent 创建回滚；调用方必须等待插件激活完成后再创建或恢复 Agent。只创建 Session 而不创建 Agent 时，不会初始化权限。存储的 `auto` 身份在 Auto integration 缺失或拒绝准入时无法发布；服务既不会改写它，也不会静默推导为 Full access。
 
 ### 目录、投影与可选命令
 
-该服务要求 `ctx.sessionProjections`，并等待 `permissions` 注册完成；其客户端视图只含 `currentValue`。进程级 `catalog()` Remote 返回一份完整的可选快照。注册或移除 Auto 会发出无 payload 的 `permission-presets/catalog-changed` 通知，因此客户端先订阅再重新读取目录；该过程不会追加 Session 事件、发布 Session 投影帧或改变 Session 序列。`/permission` 命令仅在组合了 `ctx.commands` 注册表时注册。派生当前预设或固定初始选择的调用使用保留的投影句柄。
+该服务要求 `ctx.sessionProjections`，并等待 `permissions` 注册完成；其客户端视图只含 `currentValue`。进程级 `catalog()` Remote 返回一份完整的可选快照，其默认选项包含存活的 Auto。注册或移除 Auto 会发出无 payload 的 `permission-presets/catalog-changed` 通知，因此客户端先订阅再重新读取目录；该过程不会追加 Session 事件、发布 Session 投影帧或改变 Session 序列。`/permission` 命令仅在组合了 `ctx.commands` 注册表时注册。派生当前预设或固定初始选择的调用使用保留的投影句柄。
 
 </details>
 
@@ -133,8 +133,8 @@ kind: "package-reference"
 - **只组合两个机制级旋钮**：预设选择沙箱模式和审批策略；固定 Auto integration 可以增加准入行为，但 agent（智能体）／profile 选择不属于 `PresetSpec`。
 - **`custom` 只能推导得出**：调用方可以从不匹配的旋钮组合切换出去，但无法通过此服务选中或持久化一个名为 custom 的预设。
 - **配置预设表在插件生命周期内固定**：只有固定的 Auto contribution 可以在不重新加载本服务的情况下改变实时进程目录。
-- **Auto 不能成为默认值**：它只在 integration effect 存活期间存在，并且有意不进入 `permission` 设置 schema。
-- **配置的默认值必须指向已配置预设**——移除被引用预设时，必须在同一次 Config 编辑中修改 `defaultPreset`。
+- **Auto 默认值需要其 live integration**：若组合移除了 `auto-review` 而 `defaultPreset` 仍为 `auto`，新会话创建会失败，直到修改该默认值。
+- **默认值必须指向已配置预设或存活的 Auto**：移除被引用预设时，必须在同一次 Config 编辑中修改 `defaultPreset`。
 
 <a id="dev-note"></a>
 ### 开发备注

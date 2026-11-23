@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Terminal surface",
+    "description": "Run one interactive Agent in the terminal: streamed replies, tool cards, approvals, questions, slash commands, and resume."
+  }
+}

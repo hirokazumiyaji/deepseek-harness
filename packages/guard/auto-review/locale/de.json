@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Auto-Modus",
+    "description": "Führen Sie ohne Datei-Sandbox aus, nachdem dasselbe Modell jeden Tool-Aufruf prüft; ein abgelehnter Aufruf fragt Sie weiterhin."
+  }
+}

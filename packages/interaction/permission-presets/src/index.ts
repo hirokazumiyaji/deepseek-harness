@@ -5,8 +5,8 @@
  * and replay keep reading their knob folds. The preset event preserves user
  * intent when two presets share a bundle. The Auto review integration may
  * publish one fixed, current-session-only preset with a synchronous admission
- * check; settings defaults remain limited to the configured table. The read
- * side exposes a process catalog plus the current-value-only `permissions`
+ * check; a configured default may name it once that integration is live. The
+ * read side exposes a process catalog plus the current-value-only `permissions`
  * Session projection; the write side ships as the `/permission` command and
  * the `set` Remote, whose Session resource the session controller's resolver
  * names from `request.sessionId`.
@@ -80,7 +80,7 @@ export interface PresetSpec {
  */
 export const CUSTOM_PRESET = 'custom'
 
-/** Canonical identity of the experimental per-call review preset. */
+/** Canonical identity of the per-call review preset contributed by Auto review. */
 export const AUTO_PRESET = 'auto'
 
 /**
@@ -168,7 +168,10 @@ export interface Config {
   presets: Record<string, PresetSpec>
   /**
    * Default for new sessions. When omitted, the preset matching the composed
-   * sandbox and approval defaults is used.
+   * sandbox and approval defaults is used. The reserved name `auto` is
+   * accepted once the Auto review integration is live; a composition that
+   * configures it without that integration fails when a session first
+   * resolves the default.
    */
   defaultPreset: Volatile<string | undefined>
 }
@@ -224,13 +227,21 @@ export class PermissionPresetService extends TypertRemoteService {
       throw new Error('permission: the mounted bash executor does not confine (no sandboxMode) — presets bundle a sandbox mode, so composing this plugin over an unconfined executor is a misconfiguration')
     }
     const inferredDefault = this.derive(EMPTY_KNOBS)
-    const defaultPreset = config.defaultPreset.get() ?? inferredDefault
-    if (defaultPreset === CUSTOM_PRESET) {
+    const configuredDefault = config.defaultPreset.get() ?? inferredDefault
+    if (configuredDefault === CUSTOM_PRESET) {
       throw new Error('permission: composed sandbox and approval defaults match no preset; configure defaultPreset explicitly')
     }
-    this.resolve(defaultPreset)
+    // Auto registers after this service activates, so only configured names
+    // are validated at load; the default getter validates Auto when used.
+    if (configuredDefault !== AUTO_PRESET) this.resolve(configuredDefault)
     this.defaultSettings = () => {
       const defaultPreset = config.defaultPreset.get() ?? inferredDefault
+      if (defaultPreset === AUTO_PRESET) {
+        if (this.autoAdmit === undefined) {
+          throw new Error('permission: default preset "auto" requires the live Auto review integration')
+        }
+        return { defaultPreset }
+      }
       if (!Object.hasOwn(this.presets, defaultPreset)) throw new Error(`permission: unknown default preset "${defaultPreset}"`)
       return { defaultPreset }
     }
@@ -300,7 +311,7 @@ export class PermissionPresetService extends TypertRemoteService {
   catalog(): PermissionCatalog {
     return {
       options: this.names.map(name => this.optionOf(name)),
-      defaultOptions: Object.keys(this.presets).map(name => this.optionOf(name)),
+      defaultOptions: this.names.map(name => this.optionOf(name)),
       defaultPreset: this.defaultSettings().defaultPreset,
     }
   }
@@ -391,6 +402,7 @@ export class PermissionPresetService extends TypertRemoteService {
    * The preset currently selected as the default for future sessions.
    * @returns the resolved settings value, or the composition default without
    * a mounted settings provider.
+   * @throws when the value names Auto without its live integration.
    */
   get defaultPreset(): string {
     return this.defaultSettings().defaultPreset
@@ -510,6 +522,7 @@ export class PermissionPresetService extends TypertRemoteService {
     if (preset === null && sandbox === null && approval === null && !seeded) {
       const name = this.defaultPreset
       const spec = this.resolve(name)
+      if (name === AUTO_PRESET) this.autoAdmit?.()
       session.append('permission/preset', { preset: name })
       setSandboxMode(session, spec.sandbox)
       setApprovalPolicy(session, spec.approval)

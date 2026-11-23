@@ -28,7 +28,7 @@ export interface PresetOption {
 export interface PermissionCatalog {
   /** Every currently selectable preset, in contribution order. */
   options: PresetOption[]
-  /** Configured presets eligible as defaults for future sessions. */
+  /** Presets eligible as the default for future sessions: the configured table plus live Auto. */
   defaultOptions: PresetOption[]
   /** Effective default when the Config field is omitted. */
   defaultPreset: string

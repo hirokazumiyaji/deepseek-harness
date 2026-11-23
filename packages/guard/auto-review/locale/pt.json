@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Modo automático",
+    "description": "Execute sem sandbox de arquivos depois que o mesmo modelo revisa cada chamada de ferramenta; uma chamada negada ainda pergunta a você."
+  }
+}

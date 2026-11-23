@@ -1,0 +1,15 @@
+◆ DeepSeek Harness
+
+You
+answer me
+
+Assistant                                                                              21 in / 7 out
+Reasoning
+Considering the request.
+
+The real loop answered this prompt.
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+idle · scripted/scripted · ↑21 ↓7 · permission?

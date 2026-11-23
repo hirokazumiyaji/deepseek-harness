@@ -11,17 +11,20 @@ export type PermissionPresetLabelKey =
   | 'preset.readOnly'
   | 'preset.workspaceWrite'
   | 'preset.fullAccess'
+  | 'auto.label'
 
 const PRESET_LABEL_KEYS = new Map<string, PermissionPresetLabelKey>([
   ['read-only', 'preset.readOnly'],
   ['workspace-write', 'preset.workspaceWrite'],
   [FULL_ACCESS_PRESET, 'preset.fullAccess'],
+  [AUTO_REVIEW_PRESET, 'auto.label'],
 ])
 
 const DEFAULT_PRESET_LABELS: Record<PermissionPresetLabelKey, string> = {
   'preset.readOnly': en['preset.readOnly'],
   'preset.workspaceWrite': en['preset.workspaceWrite'],
   'preset.fullAccess': en['preset.fullAccess'],
+  'auto.label': en['auto.label'],
 }
 
 /**

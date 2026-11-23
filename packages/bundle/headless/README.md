@@ -95,9 +95,9 @@ Ask the worker to report its working directory, base and resulting commit, chang
 
 A supervisor that interrupts a process must await its exit before resuming its Session. Keep the event log even after a nonzero exit. Require both process exit zero and `final.reason.kind === 'completed'` for a completed agent run, then assess the worker's task and gate report separately. A `tool_result` status of `completed` means that the tool returned; a shell command inside it can still have a nonzero exit.
 
-### Experimental Auto review
+### Auto mode supervision
 
-For model-reviewed full-access execution, explicitly enable [Auto review for headless supervision](../../experimental/auto-review/README.md#headless-supervision), select `--permission-mode auto --approval-policy never`, and use native tools. Auto reviews supported calls before execution and has no file sandbox. Its JSON denials let a supervisor inspect the failure and send scoped revision instructions through `--session-id`. Headless has no live approval-response channel.
+For model-reviewed full-access execution, select `--permission-mode auto --approval-policy never` and use native tools. The shipped base mounts [Auto review for headless supervision](../../guard/auto-review/README.md#selecting-auto). Auto reviews supported calls before execution and has no file sandbox. Its JSON denials let a supervisor inspect the failure and send scoped revision instructions through `--session-id`. Headless has no live approval-response channel.
 
 ### Machine-readable output
 

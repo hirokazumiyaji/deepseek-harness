@@ -17,6 +17,9 @@ export const PROFILE_TEMPLATES: Record<string, ProfileTemplate> = {
   headless: {
     bundles: ['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-headless'],
   },
+  tui: {
+    bundles: ['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-tui-app'],
+  },
   sdk: {
     bundles: ['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-sdk-app'],
   },
@@ -42,6 +45,9 @@ export const RETIRED_BUNDLES: ReadonlySet<string> = new Set([
   // The Web composition mounts personalized recommendations itself
   // ([upgrade guide](../../../../docs/upgrade-guide/v0.2.2-rc.5/personalized-recommendations-bundle-retired/guide.md)).
   '@deepseek-ai/dsh-personalized-recommendations',
+  // Auto review is a base row now; the base composition provides it in every
+  // profile ([upgrade guide](../../../../docs/upgrade-guide/v0.2.2-rc.5/auto-mode/guide.md)).
+  '@deepseek-ai/dsh-experimental-auto-review',
 ])
 
 /** The bundle list a `dsh plugin` init uses for a name with no shipped template. */
@@ -66,7 +72,6 @@ export const OPTIONAL_BUNDLES: readonly string[] = [
   '@deepseek-ai/dsh-experimental-session-titles-bundle',
   '@deepseek-ai/dsh-experimental-voice-input-bundle',
   '@deepseek-ai/dsh-experimental-cot-translation-bundle',
-  '@deepseek-ai/dsh-experimental-auto-review',
   '@deepseek-ai/dsh-experimental-inspector-profile',
   '@deepseek-ai/dsh-experimental-liveshare',
   '@deepseek-ai/dsh-experimental-plugin-market-bundle',

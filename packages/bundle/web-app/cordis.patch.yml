@@ -19,6 +19,24 @@
     personaPrefix: >-
       You are a coding agent powered by the {{model}} model.
 
+# Interactive Web sessions start new sessions in Auto. A patch replaces the
+# row's whole config, so the base preset table is restated; headless, SDK, and
+# ACP keep the base workspace-write default. The base mounts Auto review, so
+# this default always has a live integration in the shipped Web composition.
+- id: permission
+  config:
+    defaultPreset: auto
+    presets:
+      read-only:
+        sandbox: read-only
+        approval: ask
+      workspace-write:
+        sandbox: workspace-write
+        approval: ask
+      danger-full-access:
+        sandbox: danger-full-access
+        approval: never
+
 # Full-text session search is opt-in (the base row's `openAt: never`). This
 # restatement keeps the Web values on one ephemeral in-memory index; a
 # deployment enabling content search overrides `openAt` to `first-search` in a

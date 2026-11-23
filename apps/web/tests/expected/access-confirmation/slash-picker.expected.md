@@ -4,7 +4,4 @@
   - option "仅可查看"
   - option "工作区内修改" [selected]
   - option "完全权限"
-  - option "自动审查 EXP":
-    - text: 自动审查
-    - superscript: EXP
-    - text: 无沙箱运行；每次原生工具调用和 PTC 内层调用前由同一模型进行实验性审查。
+  - option "自动 无沙箱运行；每次原生工具调用和 PTC 内层调用前，由同一模型审查是否允许。"

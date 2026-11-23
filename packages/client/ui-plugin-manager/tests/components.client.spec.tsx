@@ -1002,7 +1002,7 @@ describe('PluginManagerPage', () => {
 
   it.each([
     ['@deepseek-ai/dsh-experimental-voice-input-bundle', true],
-    ['@deepseek-ai/dsh-experimental-auto-review', true],
+    ['@deepseek-ai/dsh-auto-review', false],
     ['@deepseek-ai/dsh-experimental-fixture-input', false],
     ['@deepseek-ai/dsh-cua-bundle', true],
     ['@acme/dsh-local-tools', false],

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Profil terminal",
+    "description": "Ouvre l’interface interactive de terminal au-dessus de dsh-base : réponses en streaming, cartes d’outils, approbations, questions et commandes slash, sans couche Host, HTTP ou navigateur."
+  }
+}

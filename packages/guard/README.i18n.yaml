@@ -3,23 +3,23 @@
 # After editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write packages/guard/README.md
 /:
-  en: 67b1f1bce9e8f043
-  zh: 707a7e0dcf6d6704
-/guard-loop-hygiene-guard-family:
-  en: 7ec1ea7779315a9c
-  zh: 0786cd17a5bc5980
-/guard-loop-hygiene-guard-family/summary:
-  en: a12eaabe4b9640af
-  zh: 26a31f6a09cf0770
-/guard-loop-hygiene-guard-family/table-of-contents:
+  en: 2a6ccf6151caf1cc
+  zh: 404327746338c14d
+/guard-tool-call-guard-family:
+  en: fbc376a269cdb885
+  zh: c4254d00a3369d6f
+/guard-tool-call-guard-family/summary:
+  en: 400c81afb93375c5
+  zh: 1405ef01a01c2302
+/guard-tool-call-guard-family/table-of-contents:
   en: 1eb35b015a6c423f
   zh: a8a3dceee2c9e943
-/guard-loop-hygiene-guard-family/packages:
-  en: 769684d83b2a1fae
-  zh: 738a6946c482c42a
-/guard-loop-hygiene-guard-family/related-documentation:
+/guard-tool-call-guard-family/packages:
+  en: e02e629406fb0e0a
+  zh: e987af5f91bee68d
+/guard-tool-call-guard-family/related-documentation:
   en: 0cbc8bcdabf8be5f
   zh: b5c442d5562d680b
-/guard-loop-hygiene-guard-family/dev-note:
+/guard-tool-call-guard-family/dev-note:
   en: 5de1d6304e00c58f
   zh: 8d8225361cfa29e5

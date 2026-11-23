@@ -15,6 +15,7 @@ Run `pnpm run gen-cli-help` to regenerate; run `pnpm run verify-cli-help` to che
 - [`dsh headless`](#dsh-headless)
 - [`dsh sdk`](#dsh-sdk)
 - [`dsh sdk-minimal`](#dsh-sdk-minimal)
+- [`dsh tui`](#dsh-tui)
 - [`dsh web`](#dsh-web)
 
 <a id="dsh"></a>
@@ -167,6 +168,53 @@ Options:
 
 Example:
   dsh --profile sdk-minimal     serve one SDK runtime until its client disconnects
+
+```
+
+<a id="dsh-tui"></a>
+## `dsh tui`
+
+Invocations: `dsh tui --help`, `dsh tui /help --help`, `dsh tui /model --help`, `dsh tui /permission --help`, `dsh tui /exit --help`, `dsh --profile tui --help`, `dsh --profile tui /help --help`, `dsh --profile tui /model --help`, `dsh --profile tui /permission --help`, `dsh --profile tui /exit --help`
+
+```text
+Usage: dsh --profile tui [options] [prompt...]
+
+Open the interactive terminal surface: streamed replies, tool cards, approvals,
+and slash commands.
+
+Arguments:
+  prompt                      an initial prompt; omitted opens an empty composer
+
+Options:
+  --resume <id>               resume the persisted Session with this id; an
+                              unknown id is an error
+  --permission-mode <preset>  select a configured permission preset for this
+                              session
+  --approval-policy <policy>  set approval behavior for this session (choices:
+                              "ask", "never")
+  --add-dir <path>            allow an additional physical absolute directory
+                              under workspace-write (repeatable)
+  -h, --help                  show this help
+
+Keys:
+  Enter          send a prompt; while the agent runs the text steers the next step
+  Shift+Tab      cycle the permission mode (auto mode reviews each tool call)
+  Ctrl+C         interrupt the running turn; twice while idle exits
+  Ctrl+D         exit
+  Ctrl+L         redraw the terminal
+
+Commands:
+  /help          list commands       /status    session facts
+  /model         choose a model      /resume    list or resume a session
+  /permission    switch sandbox + approval      /clear  clear the view
+  /exit          leave
+
+Examples:
+  dsh tui                                start a new session in this directory
+  dsh tui "explain this repository"      start with a first prompt
+  dsh tui --resume session-…             continue a persisted session
+  dsh tui --permission-mode read-only    restrict writes for this session
+  dsh tui --permission-mode auto         let the same model review each tool call
 
 ```
 
